@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "bkzalo-frontend",
+    "slug": "bkzalo-frontend",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "bkzalo-frontend"
+}
