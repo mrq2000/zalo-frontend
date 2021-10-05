@@ -7,6 +7,8 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.9",
+    "axios": "^0.22.0",
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
     "expo-font": "~9.2.1",
@@ -21,7 +23,8 @@
     "react-native-screens": "~3.4.0",
     "react-native-unimodules": "0.14.10",
     "react-native-web": "~0.13.12",
-    "react-navigation": "^4.4.4"
+    "react-navigation": "^4.4.4",
+    "react-query": "^3.25.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
