@@ -5,7 +5,7 @@ import Navigator from "./AppNavigation";
 
 const App = () => {
   return (
-    <View>
+    <View style={styles.app}>
       <StatusBar hidden={true} />
       <SafeAreaView style={styles.container}>
         <Navigator />
@@ -15,11 +15,11 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  app: {
+    flex: 1
+  },
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
+    flex: 1
   },
 });
 
