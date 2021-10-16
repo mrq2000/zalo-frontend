@@ -1,17 +1,16 @@
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import Home from "./screens/Home";
-import Intro from "./screens/Intro";
+import Home from './screens/Home';
+import SignIn from './screens/SignIn';
 
 export default createAppContainer(
   createSwitchNavigator(
     {
-
       Home: Home,
-      Intro: Intro
+      SignIn: SignIn,
     },
     {
-      initialRouteName: "Intro",
-    }
-  )
+      initialRouteName: 'SignIn',
+    },
+  ),
 );

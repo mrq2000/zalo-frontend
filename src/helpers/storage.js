@@ -1,4 +1,4 @@
-import { AsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const USER_TOKEN = 'USER_TOKEN';
 export const setItem = (key, value) => {
