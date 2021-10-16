@@ -1,26 +1,39 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, StatusBar, View } from "react-native";
+import React from 'react';
+import { SafeAreaView, StatusBar, View, Platform } from 'react-native';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-import Navigator from "./AppNavigation";
+import Navigator from './AppNavigation';
+import useStoreStatusStyle from './stores/useStoreStatusStyle';
+
+const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
+  const viewStyle = useStoreStatusStyle((state) => state.viewStyle);
+  const statusBarStyle = useStoreStatusStyle((state) => state.statusBarStyle);
+
   return (
-    <View style={styles.app}>
-      <StatusBar hidden={true} />
-      <SafeAreaView style={styles.container}>
-        <Navigator />
+    <View>
+      <View style={{ height: STATUS_BAR_HEIGHT, ...viewStyle }}>
+        <StatusBar translucent {...statusBarStyle} />
+      </View>
+
+      <SafeAreaView>
+        <QueryClientProvider client={queryClient}>
+          <Navigator />
+        </QueryClientProvider>
       </SafeAreaView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  app: {
-    flex: 1
-  },
-  container: {
-    flex: 1
-  },
-});
 
 export default App;
