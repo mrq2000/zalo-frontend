@@ -11,7 +11,8 @@ const HEADER_BACKGROUND_COLOR = '#0068ff';
 
 const InputPhoneNumberStep = ({ previousStep }) => {
   const navigation = useNavigation();
-  const setStyles = useStoreStatusStyle((state) => state.setStyles);
+  const setStatusBarStyles = useStoreStatusStyle((state) => state.setStyles);
+  const resetStatusBarStyles = useStoreStatusStyle((state) => state.reset);
 
   const [disableBtn, setDisableBtn] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -49,7 +50,7 @@ const InputPhoneNumberStep = ({ previousStep }) => {
   }, [phoneNumber, password]);
 
   useEffect(() => {
-    setStyles({
+    setStatusBarStyles({
       statusBarStyle: {
         barStyle: 'light-content',
       },
@@ -57,6 +58,8 @@ const InputPhoneNumberStep = ({ previousStep }) => {
         backgroundColor: HEADER_BACKGROUND_COLOR,
       },
     });
+
+    return () => resetStatusBarStyles();
   }, []);
 
   return (

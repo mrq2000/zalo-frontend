@@ -19,4 +19,7 @@ export function setToken(token) {
   set(token);
 }
 
-set(getTokenStorage());
+(async () => {
+  const token = await getTokenStorage();
+  set(token);
+})();

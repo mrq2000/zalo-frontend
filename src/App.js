@@ -29,7 +29,9 @@ const App = () => {
 
       <SafeAreaView>
         <QueryClientProvider client={queryClient}>
-          <Navigator />
+          <View style={{ minHeight: '100%' }}>
+            <Navigator />
+          </View>
         </QueryClientProvider>
       </SafeAreaView>
     </View>
