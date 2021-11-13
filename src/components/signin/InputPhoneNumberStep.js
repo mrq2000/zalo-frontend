@@ -18,6 +18,8 @@ const InputPhoneNumberStep = ({ previousStep }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [phoneNumberInputFocused, setPhoneNumberInputFocused,] = useState(false);
+  const [passwordInputFocused, setPasswordInputFocused] = useState(false);
 
   const { mutate: handleSignIn, isLoading } = useMutation(
     async () => {
@@ -74,24 +76,28 @@ const InputPhoneNumberStep = ({ previousStep }) => {
 
       <View style={styles.content}>
         <View style={styles.infoContainer}>
-          <Text style={styles.info}>Bạn có thể đăng nhập băng số điện thoại hoặc username</Text>
+          <Text style={styles.info}>Vui lòng nhập số điện thoại và mật khẩu để đăng nhập</Text>
         </View>
 
         <TextInput
           keyboardType="numeric"
-          style={styles.textInput}
+          style={[styles.textInput, phoneNumberInputFocused && styles.textInputFocused]}
           placeholder="Số điện thoại"
           autoFocus
           value={phoneNumber}
           onChangeText={setPhoneNumber}
+          onFocus={() => setPhoneNumberInputFocused(true)}
+          onBlur={() => setPhoneNumberInputFocused(false)}
         />
 
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, passwordInputFocused && styles.textInputFocused]}
           secureTextEntry
           placeholder="Mật khẩu"
           value={password}
           onChangeText={setPassword}
+          onFocus={() => setPasswordInputFocused(true)}
+          onBlur={() => setPasswordInputFocused(false)}
         />
 
         {!!errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
@@ -152,6 +158,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 18,
     paddingBottom: 5,
+  },
+  textInputFocused: {
+    borderBottomColor: '#8edee6',
+    borderBottomWidth: 2,
   },
   getOldPassTitle: {
     marginTop: 20,
