@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
 
 const Intro = ({ nextStep }) => {
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     color: '#0068ff',
     fontSize: 60,
     fontWeight: '700',
+    fontFamily: 'Roboto'
   },
   // button
   btnWrapper: {
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0086fe',
   },
   btnSecondary: {
-    backgroundColor: '#f2f4f9',
+    backgroundColor: '#e9e9e9',
   },
   btnText: {
     fontSize: 16,
