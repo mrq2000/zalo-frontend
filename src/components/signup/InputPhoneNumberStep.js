@@ -18,7 +18,7 @@ const InputPhoneNumberStep = ({ previousStep }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [phoneNumberInputFocused, setPhoneNumberInputFocused,] = useState(false);
+  const [phoneNumberInputFocused, setPhoneNumberInputFocused] = useState(false);
   const [passwordInputFocused, setPasswordInputFocused] = useState(false);
 
   const { mutate: handleSignup, isLoading } = useMutation(
@@ -101,7 +101,6 @@ const InputPhoneNumberStep = ({ previousStep }) => {
         />
 
         {!!errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
-
 
         <View style={styles.btnContainer}>
           <Button

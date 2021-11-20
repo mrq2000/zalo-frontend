@@ -11,7 +11,7 @@ export default createAppContainer(
       Home: Home,
       SignIn: SignIn,
       AddPost: AddPost,
-      SignUp:SignUp
+      SignUp: SignUp,
     },
     {
       initialRouteName: 'SignUp',

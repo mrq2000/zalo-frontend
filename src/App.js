@@ -22,14 +22,14 @@ const App = () => {
   const statusBarStyle = useStoreStatusStyle((state) => state.statusBarStyle);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={{ height: STATUS_BAR_HEIGHT, ...viewStyle }}>
         <StatusBar translucent {...statusBarStyle} />
       </View>
 
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>
-          <Navigator style={{flex: 1}} />
+          <Navigator style={{ flex: 1 }} />
         </QueryClientProvider>
       </SafeAreaView>
     </View>

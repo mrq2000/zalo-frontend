@@ -13,7 +13,11 @@ const Intro = ({ nextStep }) => {
           <Text style={[styles.btnText, styles.btnPrimaryText]}>Đăng nhập</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight underlayColor="#c6c8cc" style={[styles.btn, styles.btnSecondary]} onPress={() => nextStep()}>
+        <TouchableHighlight
+          underlayColor="#c6c8cc"
+          style={[styles.btn, styles.btnSecondary]}
+          onPress={() => nextStep()}
+        >
           <Text style={[styles.btnText, styles.btnSecondaryText]}>Đăng ký</Text>
         </TouchableHighlight>
       </View>
@@ -36,7 +40,7 @@ const styles = StyleSheet.create({
     color: '#0068ff',
     fontSize: 60,
     fontWeight: '700',
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
   },
   // button
   btnWrapper: {
