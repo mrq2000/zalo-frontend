@@ -3,6 +3,13 @@
     "name": "bkzalo-frontend",
     "slug": "bkzalo-frontend",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/images/logo.png",
+    "splash": {
+      "image": "./src/assets/images/splash2.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "assetBundlePatterns": [
       "**/*"
     ]
