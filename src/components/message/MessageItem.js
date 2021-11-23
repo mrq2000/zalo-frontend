@@ -4,7 +4,8 @@ import { Icon } from 'react-native-elements';
 
 const W = Dimensions.get('window').width;
 const H = Dimensions.get('window').height;
-
+const convertTime = (time) => {
+}
 const MessageItem = ({data}) => {
   
   if(!data || !data.partner || !data.lastmessage) {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: '600',
     fontSize: 12,
-    color: '#b5b5b5',
+    color: '#888',
   },
   contentWrapper: {
     flexDirection: 'row',
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: '600',
     fontSize: 14,
-    color: '#b5b5b5',
+    color: '#888',
   },
   markUnread: {
     fontFamily: 'Roboto',
