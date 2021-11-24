@@ -27,10 +27,12 @@ const ImageGridLayout = ({data}) => {
   const renderOneImage = () => {
     return (
     <View style={styles.wrapper}>
-      <Image source={{ uri: data[0]}} 
-        style={{width: '100%', height: undefined, aspectRatio: getRatio(data[0])}}
-        resizeMode="contain"
-      />
+      <View style={styles.col}>
+        <Image source={{ uri: data[0]}} 
+          style={styles.imgStyle}
+          resizeMode="cover"
+        />
+      </View>
     </View>)
   }
 
