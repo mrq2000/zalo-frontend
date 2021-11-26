@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Tab, TabView } from 'react-native-elements';
 
-import OfficialAccountSuggest from './OfficialAccountSuggest'
-import TeamSuggest from './TeamSuggest'
+import Suggest from './Suggest'
+import SearchResult from './SearchResult';
 
 
 
@@ -24,6 +24,60 @@ import { Icon } from 'react-native-elements';
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [index, setIndex] = useState(0);
+  const [suggestTeams, setSuggestTeams] = useState([]);
+  const [officialAccounts, setOfficialAccounts] = useState([]);
+
+  useEffect(() => {
+    setSuggestTeams(getTeamSuggest());
+    setOfficialAccounts(getOfficialAccounts());
+  }, []);
+
+  const getOfficialAccounts = () => {
+    return [
+      {
+        name: 'Thông tin chính phủ',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của tổng thông tin chính phủ'
+      },
+      {
+        name: 'Kết quả xổ số',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của kết quả xổ số'
+      },
+      // more items
+    ]
+  }
+
+  const getTeamSuggest = () => {
+    return [
+      {
+        name: 'Nhóm bạn bè hàng đầu thế giới',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của Nhóm bạn bè hàng đầu'
+      },
+      {
+        name: 'Nhóm nhà quản trị tương lai',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của Nhóm nhà quản trị tương lai'
+      },
+      {
+        name: 'Nhóm rạp xiếc',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của Nhóm rạp xiếc'
+      },
+      {
+        name: 'Nhóm Hiếu và những người bạn',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của Nhóm Hiếu và những người bạn'
+      },
+      {
+        name: 'Nhóm Quốc leader và những người bạn',
+        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
+        subtitle: 'Zalo của Nhóm Quốc leader và những người bạn'
+      },
+      // more items
+    ]
+  }
 
   return (
     <View style={styles.container}>
@@ -35,56 +89,55 @@ const Search = () => {
         <View style={{ marginLeft: 10 }}>
           <View style={[styles.row, styles.alignItemsCenter]}>
             <TextInput
-                style={styles.searchInput}
-                placeholderTextColor="rgba(255,255,255,0.5)"
-                placeholder="Tìm bạn bè, tin nhắn ..."
-                onChangeText={(value) => setSearchQuery(value)}
-            >{searchQuery}</TextInput>
+              style={styles.searchInput}
+              placeholderTextColor="rgba(255,255,255,0.5)"
+              placeholder="Tìm bạn bè, tin nhắn ..."
+              value={searchQuery}
+              onChangeText={(value) => setSearchQuery(value)}
+            />
           </View>
         </View>
         <View>
-          <TouchableHighlight onPress={() => {}}>
+          <TouchableHighlight onPress={() => { }}>
             <Text style={[styles.btnQr]}>QR</Text>
           </TouchableHighlight>
         </View>
       </View>
       <View style={styles.body}>
-        <View>
+        {
+          searchQuery ? (
+            <View style={{ flex: 1 }}>
+              <SearchResult searchQuery={searchQuery} />
+            </View>
+          ) : (
+            <View>
 
-          <Tab value={index} onChange={setIndex} indicatorStyle={styles.tabTitle}>
-            <Tab.Item 
-                title="Gợi ý Official Account" 
-                containerStyle={[styles.tabContainer, index==0 ? styles.activeTab : {}]} 
-                titleStyle={[styles.tabTitle, index==0 ? styles.activeTabTitle : styles.notActiveTabTitle ]} 
-            />
-            <Tab.Item 
-                title="Nhóm trò chuyện" 
-                containerStyle={[styles.tabContainer, index==1 ? styles.activeTab : {}]} 
-                titleStyle={[styles.tabTitle, index==1 ? styles.activeTabTitle : styles.notActiveTabTitle ]} 
-            />
-          </Tab>
+              <Tab value={index} onChange={setIndex} indicatorStyle={styles.tabTitle}>
+                <Tab.Item
+                  title="Gợi ý Official Account"
+                  containerStyle={[styles.tabContainer, index == 0 ? styles.activeTab : {}]}
+                  titleStyle={[styles.tabTitle, index == 0 ? styles.activeTabTitle : styles.notActiveTabTitle]}
+                />
+                <Tab.Item
+                  title="Nhóm trò chuyện"
+                  containerStyle={[styles.tabContainer, index == 1 ? styles.activeTab : {}]}
+                  titleStyle={[styles.tabTitle, index == 1 ? styles.activeTabTitle : styles.notActiveTabTitle]}
+                />
+              </Tab>
 
-          <TabView value={index} onChange={setIndex} >
-            <TabView.Item style={{ height: 500, width: '100%' }}>
-                <OfficialAccountSuggest />
-            </TabView.Item>
-            <TabView.Item style={{ height: 500, width: '100%' }}>
-                <TeamSuggest />
-            </TabView.Item>
-          </TabView>
-            
-        </View>
-        {/* <View style={styles.footer}>
-          <View style={styles.btnMedia}>
-            <Icon name="image-outline" type="ionicon" size={28} color="#555" onPress={showAlertBeforeBack} />
-          </View>
-          <View style={styles.btnMedia}>
-            <Icon name="videocam-outline" type="ionicon" size={30} color="#555" onPress={showAlertBeforeBack} />
-          </View>
-          <View style={styles.btnMedia}>
-            <Icon name="link" type="feather" size={22} color="#555" onPress={showAlertBeforeBack} />
-          </View>
-        </View> */}
+              <TabView value={index} onChange={setIndex} >
+                <TabView.Item style={{ height: 500, width: '100%' }}>
+                  <Suggest list={officialAccounts} />
+                </TabView.Item>
+                <TabView.Item style={{ height: 500, width: '100%' }}>
+                  <Suggest list={suggestTeams} />
+                </TabView.Item>
+              </TabView>
+
+            </View>
+          )
+        }
+
       </View>
     </View>
   );

@@ -15,21 +15,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
-const list = [
-    {
-      name: 'Thông tin chính phủ',
-      avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
-      subtitle: 'Zalo của tổng thông tin chính phủ'
-    },
-    {
-      name: 'Kết quả xổ số',
-      avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
-      subtitle: 'Zalo của kết quả xổ số'
-    },
-    // more items
-  ]
-
-const OfficialAccountSuggest = () => {
+const Suggest = ({list}) => {
 
   return (
     <View style={styles.container}>
@@ -66,4 +52,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default OfficialAccountSuggest;
+export default Suggest;
