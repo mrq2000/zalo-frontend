@@ -8,6 +8,7 @@ import Search from './screens/search/Search';
 import Chat from './screens/message/Chat';
 import Message from './screens/message/Message';
 import ChatOption from './screens/message/ChatOption';
+import Notification  from './screens/notification/Notification';
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -18,10 +19,11 @@ export default createAppContainer(
       Search: Search,
       Chat: Chat,
       Message: Message,
-      ChatOption: ChatOption
+      ChatOption: ChatOption,
+      Notification: Notification,
     },
     {
-      initialRouteName: 'Chat',
+      initialRouteName: 'Notification',
     },
   ),
 );

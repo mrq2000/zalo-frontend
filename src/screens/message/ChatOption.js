@@ -1,13 +1,12 @@
-import React, {useState, useEffect, partneref} from 'react';
-import { StyleSheet, View, TextInput, Text, StatusBar, Image} from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient';
+import React, { useState, useEffect, partneref } from 'react';
+import { StyleSheet, View, TextInput, Text, StatusBar, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Icon } from 'react-native-elements';
 
 const ChatOption = () => {
-
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="default" /> 
+      <StatusBar barStyle="default" />
       <LinearGradient colors={['#257afe', '#109afb', '#01b8f9']} start={[0, 1]} end={[1, 0]} style={styles.header}>
         <View style={styles.btnBack}>
           <Icon name="md-arrow-back-outline" type="ionicon" size={24} color="#fff" />
@@ -17,10 +16,10 @@ const ChatOption = () => {
       <View style={styles.body}>
         <View style={styles.partnerInfoWrapper}>
           <View style={styles.avatarWrapper}>
-            <Image 
+            <Image
               style={styles.avatar}
-              resizeMode='cover'
-              source={{ uri: "https://i.pinimg.com/736x/f2/7a/8f/f27a8f4a15b15e22da019d255a600e26.jpg" }}
+              resizeMode="cover"
+              source={{ uri: 'https://i.pinimg.com/736x/f2/7a/8f/f27a8f4a15b15e22da019d255a600e26.jpg' }}
             />
           </View>
           <Text style={styles.txtPartnerName}>Phạm Trung Hiếu</Text>
@@ -38,64 +37,63 @@ const ChatOption = () => {
           </View>
           <View style={styles.option}>
             <Icon style={styles.optionIcon} name="delete-outline" type="material" size={30} color="#f00" />
-            <Text style={[styles.optionText, {color: '#f00'}]}>Xóa lịch sử trò chuyện</Text>
+            <Text style={[styles.optionText, { color: '#f00' }]}>Xóa lịch sử trò chuyện</Text>
           </View>
         </View>
       </View>
     </View>
   );
-
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,  
+    flex: 1,
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   alignItemsCenter: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   flexSpace: {
-    flex: 1
-  },  
+    flex: 1,
+  },
   header: {
-    backgroundColor: "#0068ff",
+    backgroundColor: '#0068ff',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
-    shadowRadius: 2,  
+    shadowRadius: 2,
     elevation: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingHorizontal: 15,
     paddingVertical: 6,
-    minHeight: 50
+    minHeight: 50,
   },
   headerTitle: {
     fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 16,
     color: '#fff',
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   body: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: '#e5e5e5',
     flex: 1,
   },
   // partner info
   partnerInfoWrapper: {
     backgroundColor: '#fff',
     paddingTop: 20,
-    alignItems: 'center'
-  },  
+    alignItems: 'center',
+  },
   avatarWrapper: {
     width: 80,
     height: 80,
     borderRadius: 100,
-  }, 
+  },
   avatar: {
     width: 80,
     height: 80,
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontFamily: 'Roboto',
     fontSize: 20,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   // toolbar
   toolbarWrapper: {
@@ -116,10 +114,10 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     backgroundColor: '#fff',
     borderColor: '#e5e5e5',
-    borderBottomWidth: 10
+    borderBottomWidth: 10,
   },
   toolbarBtnWrapper: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   toolbarBtn: {
     backgroundColor: '#e5e5e5',
@@ -128,13 +126,13 @@ const styles = StyleSheet.create({
     width: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 6
+    marginBottom: 6,
   },
   // option
   optionWrapper: {
     backgroundColor: '#fff',
     borderColor: '#e5e5e5',
-    borderBottomWidth: 10
+    borderBottomWidth: 10,
   },
   option: {
     flexDirection: 'row',
@@ -142,13 +140,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderColor: '#e5e5e5',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   optionIcon: {
     marginRight: 15,
   },
   optionText: {
-    fontSize: 16
+    fontSize: 16,
   },
 });
 
