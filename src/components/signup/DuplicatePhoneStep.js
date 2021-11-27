@@ -27,12 +27,12 @@ const DuplicatePhoneStep = ({ previousStep }) => {
           />
           </View>
           <View style = {styles.childcontent}>
-            <Text>Việt Hoàng</Text>
+            <Text style = {styles.setBold}>Việt Hoàng</Text>
             <Text>0919408976</Text>
             </View>
             <View style = {styles.childcontent}>
 
-            <Text>Nếu <b>Việt Hoàng</b> là tài khoản của bạn</Text>
+            <Text>Nếu <Text style={styles.setBold}>Việt Hoàng</Text> là tài khoản của bạn</Text>
             <Text
             style={[styles.hyperlinkStyle,styles.setColorBlue]}
             onPress={() => {
@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
     },
     setColorBlue :{
         color: '#2196f3'
+    },
+    setBold:{
+        fontWeight: 'bold'
     },
     backIcon: {
       left: 15,
