@@ -15,12 +15,6 @@ export default createAppContainer(
       Home: Home,
       SignIn: SignIn,
       AddPost: AddPost,
-<<<<<<< HEAD
-      SignUp: SignUp,
-    },
-    {
-      initialRouteName: 'SignUp',
-=======
       Search: Search,
       Chat: Chat,
       Message: Message,
@@ -28,7 +22,6 @@ export default createAppContainer(
     },
     {
       initialRouteName: 'Chat',
->>>>>>> 0596f4b4c26d6d9d79e1f69ea2945752c00dfe13
     },
   ),
 );
