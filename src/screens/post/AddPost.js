@@ -14,10 +14,10 @@ import {
 import { Icon } from 'react-native-elements';
 import ImageGridLayout from '../../components/post/ImageGridLayout';
 const fakeDataImage = [
-  "https://cellphones.com.vn/sforum/wp-content/uploads/2021/09/photo-1-1615870720601745881145.jpg",
-  "https://cdn.nguyenkimmall.com/images/companies/_1/tin-tuc/review/phim/anime-naruto.jpg",
-  "https://kenh14cdn.com/thumb_w/640/pr/2021/thumb600x3759e539fb56-241e-4cde-8d73-072373323bcc-16274803707161018536076-0-0-675-1080-crop-1627480379155-63763110072986.png",
-  "https://image.lag.vn/upload/news/18/04/06/1444014275-106dee95104209bb9436d6df2b6d5145-14606202747647_TDYE.jpg"
+  'https://cellphones.com.vn/sforum/wp-content/uploads/2021/09/photo-1-1615870720601745881145.jpg',
+  'https://cdn.nguyenkimmall.com/images/companies/_1/tin-tuc/review/phim/anime-naruto.jpg',
+  'https://kenh14cdn.com/thumb_w/640/pr/2021/thumb600x3759e539fb56-241e-4cde-8d73-072373323bcc-16274803707161018536076-0-0-675-1080-crop-1627480379155-63763110072986.png',
+  'https://image.lag.vn/upload/news/18/04/06/1444014275-106dee95104209bb9436d6df2b6d5145-14606202747647_TDYE.jpg',
 ];
 const showAlertBeforeBack = () =>
   Alert.alert(
@@ -84,8 +84,10 @@ const AddPost = () => {
               style={styles.textInput}
               placeholder="Bạn đang nghĩ gì?"
               onChangeText={(value) => setPostContent(value)}
-            >{postContent}</TextInput>
-            <ImageGridLayout data={fakeDataImage}/>
+            >
+              {postContent}
+            </TextInput>
+            <ImageGridLayout data={fakeDataImage} />
           </View>
         </ScrollView>
         <View style={styles.footer}>
