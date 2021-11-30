@@ -76,7 +76,7 @@ const InputPhoneNumberStep = ({ previousStep }) => {
 
       <View style={styles.content}>
         <View style={styles.infoContainer}>
-          <Text style={styles.info}>Vui lòng nhập số điện thoại và mật khẩu để đăng ký</Text>
+          <Text style={styles.info}>Vui lòng nhập số điện thoại</Text>
         </View>
 
         <TextInput
@@ -89,18 +89,6 @@ const InputPhoneNumberStep = ({ previousStep }) => {
           onFocus={() => setPhoneNumberInputFocused(true)}
           onBlur={() => setPhoneNumberInputFocused(false)}
         />
-
-        <TextInput
-          style={[styles.textInput, passwordInputFocused && styles.textInputFocused]}
-          secureTextEntry
-          placeholder="Mật khẩu"
-          value={password}
-          onChangeText={setPassword}
-          onFocus={() => setPasswordInputFocused(true)}
-          onBlur={() => setPasswordInputFocused(false)}
-        />
-
-        {!!errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
 
         <View style={styles.btnContainer}>
           <Button
