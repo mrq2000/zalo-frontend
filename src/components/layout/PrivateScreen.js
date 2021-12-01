@@ -26,7 +26,7 @@ const PrivateRoute = ({ children }) => {
 
   if (isLoading) return <Text>Loading....</Text>;
   if (error) {
-    navigation.navigate('SignIn');
+    navigation.navigate('AuthIntro');
   }
 
   return <>{children}</>;

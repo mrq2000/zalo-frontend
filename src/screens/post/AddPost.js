@@ -1,20 +1,9 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Button,
-  ScrollView,
-  Alert,
-  TouchableHighlight,
-  Text,
-  StatusBar,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, Alert, TouchableHighlight, Text, Platform } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useMutation } from 'react-query';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImageGridLayout from '../../components/post/ImageGridLayout';
 
 import { api } from '../../helpers/api';
 
@@ -43,17 +32,8 @@ const AddPost = () => {
   const [isDisabledBtnPost, setDisableBtnPost] = useState(true);
   const navigation = useNavigation();
 
-  const openImagePickerAsync = async () => {
-    // let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    // if (permissionResult.granted === false) {
-    //   alert('Permission to access camera roll is required!');
-    //   return;
-    // }
-    // ImagePicker.openPicker({
-    //   multiple: true,
-    // }).then(images => {
-    //   console.log(images, 22222);
-    // });
+  const openImagePickerAsync = () => {
+    navigation.navigate('ImageBrowser', { handleCallback: (photos) => setFiles(photos) });
   };
 
   useEffect(() => {
@@ -67,20 +47,40 @@ const AddPost = () => {
     setDisableBtnPost(canPost);
   }, [postContent]);
 
-  const { mutate: addPost, isLoading } = useMutation(async (formData) => {
-    const res = await api.post('/posts', formData);
-    return res.data;
-  });
+  const { mutate: addPost, isLoading } = useMutation(
+    async (formData) => {
+      const res = await api.post('/posts', formData);
+      return res.data;
+    },
+    {
+      onSuccess: () => {
+        navigation.navigate('Home');
+      },
+      onError: (error) => {
+        Alert.alert('Đăng bài thất bại', 'Vui lòng thử lại sau!');
+      },
+    },
+  );
 
   const handleAddPost = () => {
     const formData = new FormData();
-    formData.set('described', postContent);
+
+    if (files) {
+      files.map((file) => {
+        formData.append('image', {
+          name: file.name,
+          type: file.type,
+          uri: Platform.OS === 'ios' ? file.uri.replace('file://', '') : file.uri,
+        });
+      });
+    }
+
+    formData.append('described', postContent);
     addPost(formData);
   };
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="default" />
       <View style={styles.header}>
         <View>
           <Icon
@@ -91,6 +91,7 @@ const AddPost = () => {
             onPress={() => navigation.goBack()}
           />
         </View>
+
         <View style={{ marginLeft: 10 }}>
           <View style={[styles.row, styles.alignItemsCenter]}>
             <Icon name="people" type="ionicon" size={20} color="#555" />
@@ -98,16 +99,19 @@ const AddPost = () => {
           </View>
           <Text style={{ fontSize: 12 }}>Xem bởi bạn bè trên BK-Zalo</Text>
         </View>
+
         <View style={styles.flexSpace} />
+
         <View>
-          <TouchableHighlight onPress={() => { }} disabled={isDisabledBtnPost} onPress={handleAddPost}>
-            <Text style={[styles.btnPostText, { opacity: isDisabledBtnPost ? 0.2 : 1 }]}>Đăng</Text>
+          <TouchableHighlight disabled={isLoading || isDisabledBtnPost} onPress={handleAddPost}>
+            <Text style={[styles.btnPostText, { opacity: isLoading || isDisabledBtnPost ? 0.2 : 1 }]}>Đăng</Text>
           </TouchableHighlight>
         </View>
       </View>
+
       <View style={styles.body}>
         <ScrollView contentContainerStyle={{}}>
-          <View>
+          <View style={{ paddingTop: 10 }}>
             <TextInput
               multiline={true}
               style={styles.textInput}
@@ -118,6 +122,8 @@ const AddPost = () => {
             </TextInput>
           </View>
         </ScrollView>
+
+        {files && <ImageGridLayout data={files.map((file) => file.uri)} />}
 
         <View style={styles.footer}>
           <View style={styles.btnMedia}>

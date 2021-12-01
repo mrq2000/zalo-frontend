@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/core';
+import React from 'react';
 import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
 
-const Intro = ({ nextStep }) => {
+const AuthIntro = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -9,11 +12,19 @@ const Intro = ({ nextStep }) => {
       </View>
 
       <View style={styles.btnWrapper}>
-        <TouchableHighlight underlayColor="#0068ff" style={[styles.btn, styles.btnPrimary]} onPress={() => nextStep()}>
+        <TouchableHighlight
+          underlayColor="#0068ff"
+          style={[styles.btn, styles.btnPrimary]}
+          onPress={() => navigation.navigate('SignIn')}
+        >
           <Text style={[styles.btnText, styles.btnPrimaryText]}>Đăng nhập</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight underlayColor="#c6c8cc" style={[styles.btn, styles.btnSecondary]} onPress={() => {}}>
+        <TouchableHighlight
+          underlayColor="#c6c8cc"
+          style={[styles.btn, styles.btnSecondary]}
+          onPress={() => navigation.navigate('SignUp')}
+        >
           <Text style={[styles.btnText, styles.btnSecondaryText]}>Đăng ký</Text>
         </TouchableHighlight>
       </View>
@@ -36,7 +47,7 @@ const styles = StyleSheet.create({
     color: '#0068ff',
     fontSize: 60,
     fontWeight: '700',
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
   },
   // button
   btnWrapper: {
@@ -68,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Intro;
+export default AuthIntro;

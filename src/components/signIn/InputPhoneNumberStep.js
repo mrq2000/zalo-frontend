@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import useStoreStatusStyle, { HEADER_BACKGROUND_COLOR } from '../../stores/useStoreStatusStyle';
 import { api, setToken } from '../../helpers/api';
 
-const InputPhoneNumberStep = ({ previousStep }) => {
+const InputPhoneNumberStep = () => {
   const navigation = useNavigation();
   const setStatusBarStyles = useStoreStatusStyle((state) => state.setStyles);
   const resetStatusBarStyles = useStoreStatusStyle((state) => state.reset);
@@ -52,19 +52,6 @@ const InputPhoneNumberStep = ({ previousStep }) => {
   }, [phoneNumber, password]);
 
   useEffect(() => {
-    setStatusBarStyles({
-      statusBarStyle: {
-        barStyle: 'light-content',
-      },
-      viewStyle: {
-        backgroundColor: HEADER_BACKGROUND_COLOR,
-      },
-    });
-
-    return () => resetStatusBarStyles();
-  }, []);
-
-  useEffect(() => {
     if (isLoading) {
       setErrorMessage('');
     }
@@ -74,7 +61,13 @@ const InputPhoneNumberStep = ({ previousStep }) => {
     <View>
       <View style={styles.header}>
         <View style={styles.backIcon}>
-          <Icon name="angle-left" type="font-awesome" size={28} color="#fff" onPress={() => previousStep()} />
+          <Icon
+            name="angle-left"
+            type="font-awesome"
+            size={28}
+            color="#fff"
+            onPress={() => navigation.navigate('AuthIntro')}
+          />
         </View>
 
         <Text style={styles.title}>Đăng nhập</Text>
