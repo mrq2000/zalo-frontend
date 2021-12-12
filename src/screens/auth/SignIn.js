@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/core';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -7,6 +8,7 @@ import useStoreStatusStyle, { HEADER_BACKGROUND_COLOR } from '../../stores/useSt
 const SignIn = () => {
   const resetStatusBarStyles = useStoreStatusStyle((state) => state.reset);
   const setStatusBarStyles = useStoreStatusStyle((state) => state.setStyles);
+  const route = useRoute();
 
   useEffect(() => {
     setStatusBarStyles({
@@ -23,7 +25,7 @@ const SignIn = () => {
 
   return (
     <View style={{ height: '100%' }}>
-      <InputPhoneNumberStep />
+      <InputPhoneNumberStep defaultPhonenumber={route.params?.phonenumber} />
     </View>
   );
 };

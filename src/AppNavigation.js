@@ -18,7 +18,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 const TABS = [
   { label: 'Tin nhắn', icon: 'commenting-o', component: Home, name: 'Message' },
-  { label: 'Nhật ký', icon: 'home', component: PostList, name: 'Home' },
+  { label: 'Nhật ký', icon: 'home', component: PostList, name: 'PostList' },
   { label: 'Cá nhân', icon: 'user-o', component: Home, name: 'Account' },
 ];
 
@@ -27,7 +27,7 @@ const HomeNavigator = () => (
     screenOptions={{
       headerShown: false,
     }}
-    initialRouteName="Home"
+    initialRouteName="PostList"
     activeColor="#1C86EE"
     inactiveColor="#607B8B"
     barStyle={{ backgroundColor: '#fff' }}
@@ -54,7 +54,7 @@ const AppNavigator = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="AuthIntro"
+        initialRouteName="Home"
       >
         <Stack.Screen name="Home" component={HomeNavigator} />
 

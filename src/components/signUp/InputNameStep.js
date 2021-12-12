@@ -1,13 +1,37 @@
+import { useMutation } from 'react-query';
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { Text, StyleSheet, View, TextInput, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 
-const InputNameStep = () => {
+import { api } from '../../helpers/api';
+import { useNavigation } from '@react-navigation/core';
+
+const InputNameStep = ({ phonenumber }) => {
+  const navigation = useNavigation();
   const [nameInputFocused, setNameInputFocused] = useState(false);
   const [name, setName] = useState('');
-  const [disableBtn, setDisableBtn] = useState(true);
   const [passwordInputFocused, setPasswordInputFocused] = useState(false);
   const [password, setPassword] = useState('');
+
+  const { mutate: signUp, isLoading } = useMutation(
+    async () => {
+      const response = await api.post('/sign-up', {
+        phonenumber: phonenumber,
+        fullName: name,
+        password,
+      });
+
+      return response.data;
+    },
+    {
+      onSuccess: (data) => {
+        navigation.navigate('SignIn', { phonenumber });
+      },
+      onError: (err) => {
+        Alert.alert('Có lỗi xảy ra vui lòng thử lại sau');
+      },
+    },
+  );
 
   return (
     <>
@@ -40,9 +64,10 @@ const InputNameStep = () => {
         <Button
           title="Tiếp theo"
           type="solid"
-          disabled={disableBtn || isLoading}
+          disabled={!password || !name || isLoading}
           buttonStyle={styles.submitBtn}
           titleStyle={{ fontSize: 14, fontWeight: '500' }}
+          onPress={() => signUp()}
         />
       </View>
     </>

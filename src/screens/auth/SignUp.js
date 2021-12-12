@@ -32,7 +32,7 @@ const SignUp = () => {
       case 'duplicatePhone':
         return <DuplicatePhoneStep userDuplicate={userDuplicate} setCurrentStep={setCurrentStep} />;
       case 'inputName':
-        return <InputNameStep />;
+        return <InputNameStep phonenumber={phoneNumber} />;
       default:
         return (
           <InputPhoneNumberStep

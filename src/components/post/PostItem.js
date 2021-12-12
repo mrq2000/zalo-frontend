@@ -1,43 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, Text, StatusBar, Dimensions } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const W = Dimensions.get('window').width;
-const H = Dimensions.get('window').height;
+import ImageGridLayout from './ImageGridLayout';
+import LikePost from './LikePost';
 
-/**
- * Lấy ra tỉ lệ ảnh
- * @param {String} imgUri uri của ảnh
- * @returns tỉ lệ chiều rộng / chiều cao
- */
-const getRatio = (imgUri) => {
-  try {
-    Image.getSize(imgUri, (width, height) => {
-      return width / height;
-    });
-  } catch {}
-  return 1.5;
-};
-
-const imgUri = 'https://cellphones.com.vn/sforum/wp-content/uploads/2021/09/photo-1-1615870720601745881145.jpg';
-
-const PostItem = (data) => {
-  const [isLiked, setLike] = useState(false);
-  const [likeNum, setLikeNum] = useState(0);
-
-  /**
-   * Xử lý ấn nút Like
-   */
-  const pressLike = () => {
-    if (isLiked) {
-      setLike(false);
-      setLikeNum(likeNum - 1);
-    } else {
-      setLike(true);
-      setLikeNum(likeNum + 1);
-    }
-  };
-
+const PostItem = ({ data }) => {
   return (
     <View style={styles.postItemWrapper}>
       <StatusBar barStyle="default" />
@@ -48,44 +16,36 @@ const PostItem = (data) => {
         </View>
         <View style={styles.headerInfoWrapper}>
           <Text style={styles.userInfo}>
-            <Text style={styles.userName}>Phạm Trung Hiếu</Text>
-            <Text style={styles.userAction}> đã thay đổi ảnh đại diện</Text>
+            <Text style={styles.userName}>{data?.author?.full_name}</Text>
           </Text>
           <Text style={styles.timeInfo}>Thứ hai lúc 12:30</Text>
         </View>
+
         <View style={styles.flexSpace} />
+
         <View style={styles.headerOptionWrapper}>
           <Icon name="dots-three-horizontal" type="entypo" size={20} color="#888" onPress={() => {}} />
         </View>
       </View>
 
       <View style={styles.body}>
-        <Text style={styles.bodyText}>
-          Hôm nay trời đẹp quá
-          https://cellphones.com.vn/sforum/wp-content/uploads/2021/09/photo-1-1615870720601745881145.jpg
-        </Text>
-        <Image
-          style={{ width: '100%', height: undefined, aspectRatio: getRatio(imgUri) }}
-          resizeMode="contain"
-          source={{ uri: imgUri }}
-        />
+        <Text style={styles.bodyText}>{data?.described}</Text>
+
+        {data?.image && <ImageGridLayout data={JSON.parse(data.image)} />}
       </View>
 
       <View style={styles.footer}>
-        <View style={styles.footerActionWrapper}>
-          {isLiked ? (
-            <Icon name="heart" type="material-community" size={28} color="#f00" onPress={pressLike} />
-          ) : (
-            <Icon name="heart-outline" type="material-community" size={28} color="#888" onPress={pressLike} />
-          )}
-          <Text style={styles.actionNum}>{likeNum}</Text>
-        </View>
+        <LikePost
+          postId={data?.id}
+          likeNumDefault={data?.like_count}
+          isLikedDefault={data?.meLike?.user_exists == 'true'}
+        />
+
         <View style={styles.footerActionWrapper}>
           <Icon name="comment-processing-outline" type="material-community" size={26} color="#888" onPress={() => {}} />
-          <Text style={styles.actionNum}>18</Text>
+          <Text style={styles.actionNum}>{data?.comment_count}</Text>
         </View>
         <View style={styles.flexSpace} />
-        {likeNum !== 0 && <Text style={styles.seeLikes}>Xem lượt thích &gt;</Text>}
       </View>
     </View>
   );
@@ -141,7 +101,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   headerOptionWrapper: {
-    marginTop: 15,
     alignSelf: 'flex-start',
   },
   timeInfo: {

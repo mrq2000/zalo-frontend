@@ -7,13 +7,13 @@ import { useNavigation } from '@react-navigation/native';
 import useStoreStatusStyle, { HEADER_BACKGROUND_COLOR } from '../../stores/useStoreStatusStyle';
 import { api, setToken } from '../../helpers/api';
 
-const InputPhoneNumberStep = () => {
+const InputPhoneNumberStep = ({ defaultPhonenumber }) => {
   const navigation = useNavigation();
   const setStatusBarStyles = useStoreStatusStyle((state) => state.setStyles);
   const resetStatusBarStyles = useStoreStatusStyle((state) => state.reset);
 
   const [disableBtn, setDisableBtn] = useState(true);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(defaultPhonenumber);
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [phoneNumberInputFocused, setPhoneNumberInputFocused] = useState(false);

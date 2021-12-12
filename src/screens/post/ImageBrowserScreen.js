@@ -34,7 +34,6 @@ const ImageBrowserScreen = () => {
             type: 'image/jpg',
           });
         }
-        // navigation.navigate('Home', { photos: cPhotos });
         handleCallback(cPhotos);
         navigation.goBack();
       })
