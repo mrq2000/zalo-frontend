@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { getRelativeTimeFromNow } from '../../helpers/date';
 
 import ImageGridLayout from './ImageGridLayout';
 import LikePost from './LikePost';
@@ -12,13 +13,17 @@ const PostItem = ({ data }) => {
 
       <View style={styles.header}>
         <View style={styles.headerAvatarWrapper}>
-          <Image style={styles.avatar} resizeMode="cover" source={require('../../assets/anh1.jpg')} />
+          <Image
+            style={styles.avatar}
+            resizeMode="cover"
+            source={data?.author?.avatar_url || require('../../assets/defaultAvatar.jpeg')}
+          />
         </View>
         <View style={styles.headerInfoWrapper}>
           <Text style={styles.userInfo}>
             <Text style={styles.userName}>{data?.author?.full_name}</Text>
           </Text>
-          <Text style={styles.timeInfo}>Thứ hai lúc 12:30</Text>
+          <Text style={styles.timeInfo}>{getRelativeTimeFromNow(data.created_at)}</Text>
         </View>
 
         <View style={styles.flexSpace} />

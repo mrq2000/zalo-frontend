@@ -12,12 +12,14 @@ import SignIn from './screens/auth/SignIn';
 import SignUp from './screens/auth/SignUp';
 import AuthIntro from './screens/auth/AuthIntro';
 import PostList from './screens/post/PostList';
+import Message from './screens/message/Message';
+import Chat from './screens/message/Chat';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const TABS = [
-  { label: 'Tin nhắn', icon: 'commenting-o', component: Home, name: 'Message' },
+  { label: 'Tin nhắn', icon: 'commenting-o', component: Chat, name: 'Message' },
   { label: 'Nhật ký', icon: 'home', component: PostList, name: 'PostList' },
   { label: 'Cá nhân', icon: 'user-o', component: Home, name: 'Account' },
 ];
@@ -27,7 +29,7 @@ const HomeNavigator = () => (
     screenOptions={{
       headerShown: false,
     }}
-    initialRouteName="PostList"
+    initialRouteName="Message"
     activeColor="#1C86EE"
     inactiveColor="#607B8B"
     barStyle={{ backgroundColor: '#fff' }}

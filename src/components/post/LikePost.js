@@ -9,10 +9,10 @@ import likePostType from '../../enums/likePostType';
 const LikePost = ({ postId, isLikedDefault, likeNumDefault }) => {
   const [isLiked, setIsLiked] = useState(isLikedDefault);
   const [likeNum, setLikeNum] = useState(likeNumDefault);
-  
+
   const { mutate: handleLike } = useMutation(
     async () => {
-      setIsLiked(isLiked ? likePostType.UNLIKE : likePostType.LIKE);
+      setIsLiked(!isLiked);
       setLikeNum(isLiked ? likeNum - 1 : likeNum + 1);
       const res = await api.post(`/posts/${postId}/like`, {
         type: isLiked ? likePostType.UNLIKE : likePostType.LIKE,

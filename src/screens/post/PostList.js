@@ -62,7 +62,7 @@ const PostList = () => {
                   marginRight: 10,
                 }}
                 resizeMode="cover"
-                source={require('../../assets/defaultAvatar.jpeg')}
+                source={me?.avatar_url || require('../../assets/defaultAvatar.jpeg')}
               />
 
               <Text style={{ color: '#888' }}>Hôm nay của bạn thế nào ?</Text>
