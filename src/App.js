@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar, View, Platform } from 'react-native';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
+import io from 'socket.io-client';
+import useSocket from './stores/useSocket';
 
 import AppNavigator from './AppNavigation';
 import useStoreStatusStyle from './stores/useStoreStatusStyle';
+import { getToken } from './helpers/storage';
+import { API } from './env';
 
 const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
@@ -20,6 +24,27 @@ const queryClient = new QueryClient({
 const App = () => {
   const viewStyle = useStoreStatusStyle((state) => state.viewStyle);
   const statusBarStyle = useStoreStatusStyle((state) => state.statusBarStyle);
+  const { setSocket } = useSocket();
+  const [userToken, setUserToken] = useState();
+
+  useEffect(() => {
+    if (userToken) {
+      const socket = io(API, {
+        auth: { token: userToken },
+      });
+
+      setSocket(socket);
+
+      return () => {
+        socket.disconnect();
+        socket.off();
+      };
+    } else {
+      (async () => {
+        setUserToken(await getToken());
+      })();
+    }
+  }, [userToken]);
 
   return (
     <View style={{ flex: 1 }}>

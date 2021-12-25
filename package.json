@@ -39,8 +39,10 @@
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
     "react-query": "^3.25.1",
+    "socket.io-client": "^4.4.0",
     "unimodules-permissions-interface": "^6.1.0",
-    "zustand": "^3.5.13"
+    "uuid": "^3.4.0",
+    "zustand": "^3.6.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

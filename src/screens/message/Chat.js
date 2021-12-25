@@ -1,26 +1,52 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useRoute } from '@react-navigation/core';
-import { StyleSheet, View, TextInput, Text, StatusBar, FlatList, ActivityIndicator } from 'react-native';
+import { useQueryClient } from 'react-query';
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigation, useRoute } from '@react-navigation/core';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  StatusBar,
+  FlatList,
+  ActivityIndicator,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Icon } from 'react-native-elements';
+
 import ChatItem from '../../components/chat/ChatItem';
 import useMe from '../../data/useMe';
 import useMessageFriend from '../../data/useMessageFriend';
 import useUserInfo from '../../data/useUserInfo';
 import dayjs from 'dayjs';
+import useSocket from '../../stores/useSocket';
+import PrivateRoute from '../../components/layout/PrivateScreen';
+import useTabBarBadge from '../../stores/useTabBarBadge';
 
 const Chat = () => {
+  const route = useRoute();
+  const listMsgRef = useRef();
+  const { data: me } = useMe();
+  const { socket } = useSocket();
+  const navigation = useNavigation();
+  const { setTabBarBadge, message } = useTabBarBadge();
+
   const [msgContent, setMsgContent] = useState('');
   const [messages, setMessages] = useState([]);
-  const listMsgRef = useRef();
-  const route = useRoute();
-
-  const { data: me } = useMe();
+  const queryClient = useQueryClient();
+  const [idsLoading, setIdsLoading] = useState([]);
 
   const friendId = route.params?.friendId;
-  const { data, isFetching } = useMessageFriend(friendId || 2);
-  const { data: friendInfo } = useUserInfo(friendId || 2);
-  const userId = me?.id;
+  const { data, isFetching } = useMessageFriend(friendId);
+  const { data: friendInfo } = useUserInfo(friendId);
+  const meId = me?.id;
+
+  useEffect(() => {
+    const newMessageTabBarBadge = [...message];
+    setTabBarBadge({ message: newMessageTabBarBadge.filter((id) => id != friendId) });
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -41,13 +67,13 @@ const Chat = () => {
       showDate = true;
     } else {
       let minDff = dayjs(message.created_at).diff(messages[index - 1].created_at, 'minute', true);
-      if (minDff > 10) {
+      if (minDff > 5) {
         showDate = true;
       }
     }
 
-    if (message.sender_id == userId) {
-      return <ChatItem type={1} showDate={showDate} msgData={message} />;
+    if (message.sender_id == meId) {
+      return <ChatItem type={1} showDate={showDate} msgData={message} isLoading={idsLoading.includes(message.id)} />;
     } else {
       let showAvatar = true;
       if (!showDate && index > 0 && messages[index - 1]?.sender_id == message?.sender_id) {
@@ -60,7 +86,7 @@ const Chat = () => {
           showDate={showDate}
           showAvatar={showAvatar}
           msgData={message}
-          avartar_url={friendInfo?.avartar_url}
+          avatar_url={friendInfo?.avatar_url}
         />
       );
     }
@@ -70,77 +96,122 @@ const Chat = () => {
    * Xử lý việc gửi tin nhắn
    */
   const sendMessage = () => {
-    setMessages([
-      ...messages,
-      {
-        id: 213,
-        sender_id: userId,
-        content: msgContent,
-        created_at: dayjs(),
-      },
-    ]);
-    setMsgContent('');
+    if (socket) {
+      const currentId = uuidv4();
+      const newIdsLoading = [...idsLoading];
+      newIdsLoading.push(currentId);
+      setIdsLoading(newIdsLoading);
+      const createdAt = dayjs();
+
+      queryClient.setQueryData(['message friends', friendId], (oldData) => {
+        return {
+          ...oldData,
+          pages: [
+            {
+              messages: [
+                {
+                  id: currentId,
+                  content: msgContent,
+                  sender_id: meId,
+                  created_at: createdAt,
+                },
+              ],
+            },
+            ...oldData.pages,
+          ],
+        };
+      });
+
+      socket.emit('newMessage', { receiver_id: friendId, message: msgContent }, (isSuccess) => {
+        if (isSuccess) {
+          const newIdsLoading = [...idsLoading];
+          newIdsLoading.filter((id) => id !== currentId);
+          setIdsLoading(newIdsLoading);
+        }
+        if (queryClient.getQueryData('message list')) {
+          queryClient.setQueryData('message list', (oldData) => {
+            const newMessageList = [...oldData].filter((data) => data.friendId != friendId);
+            newMessageList.unshift({
+              friendId,
+              content: msgContent,
+              sender_id: meId,
+              created_at: createdAt,
+            });
+
+            return newMessageList;
+          });
+        }
+      });
+
+      setMsgContent('');
+    } else {
+      Alert.alert('Không kết nối được server chat vui lòng thử lại sau!');
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="default" />
-      <LinearGradient colors={['#257afe', '#109afb', '#01b8f9']} start={[0, 1]} end={[1, 0]} style={styles.header}>
-        <View style={styles.btnBack}>
-          <Icon name="md-arrow-back-outline" type="ionicon" size={24} color="#fff" />
-        </View>
-        <View style={styles.partnerInfoWrapper}>
-          <Text style={styles.partnerUsername}>{friendInfo?.full_name}</Text>
-          <Text style={styles.partnerLastVisited}>Truy cập 10 phút trước</Text>
-        </View>
-        <View style={styles.flexSpace} />
-        <View style={styles.btnOption}>
-          <Icon name="menu" type="ionicon" size={24} color="#fff" />
-        </View>
-      </LinearGradient>
-
-      <View style={styles.body}>
-        <FlatList
-          style={styles.messageContainer}
-          data={messages}
-          renderItem={renderChatItem}
-          keyExtractor={(item) => item.id.toString()}
-          ref={listMsgRef}
-          onContentSizeChange={(contentWidth, contentHeight) => {
-            {
-              listMsgRef.current.scrollToEnd({ animated: true });
-            }
-          }}
-          ListHeaderComponent={() => <View style={{ marginTop: 10 }}>{isFetching && <ActivityIndicator />}</View>}
-          ListFooterComponent={() => <View style={{ paddingBottom: 20 }}></View>}
-        />
-      </View>
-
-      <View style={styles.footer}>
-        <TextInput
-          style={styles.msgContent}
-          placeholder="Tin nhắn"
-          blurOnSubmit={true}
-          multiline={true}
-          maxLength={1000}
-          value={msgContent}
-          onChangeText={(text) => setMsgContent(text)}
-        />
-
-        {(msgContent == null || msgContent == '') && (
-          <View style={{ flexDirection: 'row' }}>
-            <Icon name="camera-outline" type="ionicon" size={28} color="#555" style={{ marginRight: 5 }} />
-            <Icon name="image-outline" type="ionicon" size={28} color="#555" />
+    <PrivateRoute>
+      <View style={styles.container}>
+        <StatusBar barStyle="default" />
+        <LinearGradient colors={['#257afe', '#109afb', '#01b8f9']} start={[0, 1]} end={[1, 0]} style={styles.header}>
+          <View style={styles.btnBack}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="md-arrow-back-outline" type="ionicon" size={24} color="#fff" />
+            </TouchableOpacity>
           </View>
-        )}
-
-        {msgContent != null && msgContent != '' && (
-          <View>
-            <Icon name="send" type="ionicon" size={24} color="#0086fe" onPress={() => sendMessage()} />
+          <View style={styles.partnerInfoWrapper}>
+            <Text style={styles.partnerUsername}>{friendInfo?.full_name}</Text>
+            <Text style={styles.partnerLastVisited}>Truy cập 10 phút trước</Text>
           </View>
-        )}
+          <View style={styles.flexSpace} />
+          <View style={styles.btnOption}>
+            <Icon name="menu" type="ionicon" size={24} color="#fff" />
+          </View>
+        </LinearGradient>
+
+        <View style={styles.body}>
+          <FlatList
+            style={styles.messageContainer}
+            data={messages}
+            renderItem={renderChatItem}
+            keyExtractor={(item) => item.id.toString()}
+            ref={listMsgRef}
+            onContentSizeChange={(contentWidth, contentHeight) => {
+              {
+                listMsgRef.current.scrollToEnd({ animated: true });
+              }
+            }}
+            ListHeaderComponent={() => <View style={{ marginTop: 10 }}>{isFetching && <ActivityIndicator />}</View>}
+            ListFooterComponent={() => <View style={{ paddingBottom: 20 }}></View>}
+          />
+        </View>
+
+        <View style={styles.footer}>
+          <TextInput
+            style={styles.msgContent}
+            placeholder="Tin nhắn"
+            blurOnSubmit={true}
+            multiline={true}
+            maxLength={1000}
+            value={msgContent}
+            onChangeText={(text) => setMsgContent(text)}
+          />
+
+          {(msgContent == null || msgContent == '') && (
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="camera-outline" type="ionicon" size={28} color="#555" style={{ marginRight: 5 }} />
+              <Icon name="image-outline" type="ionicon" size={28} color="#555" />
+            </View>
+          )}
+
+          {msgContent != null && msgContent != '' && (
+            <View>
+              <Icon name="send" type="ionicon" size={24} color="#0086fe" onPress={() => sendMessage()} />
+            </View>
+          )}
+        </View>
       </View>
-    </View>
+    </PrivateRoute>
   );
 };
 

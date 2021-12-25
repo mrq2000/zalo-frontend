@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, FlatList, ActivityIndicator, SafeAreaView, Text } from 'react-native';
 import { Button } from 'react-native-elements';
+import PrivateRoute from '../../components/layout/PrivateScreen';
 import MessageItem from '../../components/message/MessageItem';
 import useMessageList from '../../data/useMessageList';
+import SearchBar from '../../components/layout/SearchBar';
 
 const Message = () => {
   const { data, isLoading } = useMessageList();
+
   const renderMsgItem = ({ item }) => <MessageItem data={item} />;
 
   const renderFindMoreFriendWrapper = () => (
@@ -16,11 +19,15 @@ const Message = () => {
   );
 
   return (
-    <SafeAreaView style={styles.msgWrapper}>
-      {isLoading && <ActivityIndicator style={{ marginTop: 20, marginBottom: 20 }} />}
-      <FlatList data={data} renderItem={renderMsgItem} keyExtractor={(item) => item.firendId} />
-      {renderFindMoreFriendWrapper()}
-    </SafeAreaView>
+    <PrivateRoute>
+      <SearchBar />
+
+      <SafeAreaView style={styles.msgWrapper}>
+        {isLoading && <ActivityIndicator style={{ marginTop: 20, marginBottom: 20 }} />}
+        <FlatList data={data} renderItem={renderMsgItem} keyExtractor={(item) => item.firendId} />
+        {renderFindMoreFriendWrapper()}
+      </SafeAreaView>
+    </PrivateRoute>
   );
 };
 

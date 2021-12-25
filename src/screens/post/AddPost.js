@@ -80,64 +80,67 @@ const AddPost = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Icon
-            name="md-arrow-back-outline"
-            type="ionicon"
-            size={24}
-            color="#555"
-            onPress={() => navigation.goBack()}
-          />
-        </View>
+    <PrivateRoute>
 
-        <View style={{ marginLeft: 10 }}>
-          <View style={[styles.row, styles.alignItemsCenter]}>
-            <Icon name="people" type="ionicon" size={20} color="#555" />
-            <Text style={{ fontWeight: '700', fontSize: 12 }}>Tất cả bạn bè</Text>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View>
+            <Icon
+              name="md-arrow-back-outline"
+              type="ionicon"
+              size={24}
+              color="#555"
+              onPress={() => navigation.goBack()}
+            />
           </View>
-          <Text style={{ fontSize: 12 }}>Xem bởi bạn bè trên BK-Zalo</Text>
+
+          <View style={{ marginLeft: 10 }}>
+            <View style={[styles.row, styles.alignItemsCenter]}>
+              <Icon name="people" type="ionicon" size={20} color="#555" />
+              <Text style={{ fontWeight: '700', fontSize: 12 }}>Tất cả bạn bè</Text>
+            </View>
+            <Text style={{ fontSize: 12 }}>Xem bởi bạn bè trên BK-Zalo</Text>
+          </View>
+
+          <View style={styles.flexSpace} />
+
+          <View>
+            <TouchableHighlight disabled={isLoading || isDisabledBtnPost} onPress={handleAddPost}>
+              <Text style={[styles.btnPostText, { opacity: isLoading || isDisabledBtnPost ? 0.2 : 1 }]}>Đăng</Text>
+            </TouchableHighlight>
+          </View>
         </View>
 
-        <View style={styles.flexSpace} />
+        <View style={styles.body}>
+          <ScrollView contentContainerStyle={{}}>
+            <View style={{ paddingTop: 10 }}>
+              <TextInput
+                multiline={true}
+                style={styles.textInput}
+                placeholder="Bạn đang nghĩ gì?"
+                onChangeText={(value) => setPostContent(value)}
+              >
+                {postContent}
+              </TextInput>
+            </View>
+          </ScrollView>
 
-        <View>
-          <TouchableHighlight disabled={isLoading || isDisabledBtnPost} onPress={handleAddPost}>
-            <Text style={[styles.btnPostText, { opacity: isLoading || isDisabledBtnPost ? 0.2 : 1 }]}>Đăng</Text>
-          </TouchableHighlight>
+          {files && <ImageGridLayout data={files.map((file) => file.uri)} />}
+
+          <View style={styles.footer}>
+            <View style={styles.btnMedia}>
+              <Icon name="image-outline" type="ionicon" size={28} color="#555" onPress={openImagePickerAsync} />
+            </View>
+            <View style={styles.btnMedia}>
+              <Icon name="videocam-outline" type="ionicon" size={30} color="#555" onPress={showAlertBeforeBack} />
+            </View>
+            <View style={styles.btnMedia}>
+              <Icon name="link" type="feather" size={22} color="#555" onPress={showAlertBeforeBack} />
+            </View>
+          </View>
         </View>
       </View>
-
-      <View style={styles.body}>
-        <ScrollView contentContainerStyle={{}}>
-          <View style={{ paddingTop: 10 }}>
-            <TextInput
-              multiline={true}
-              style={styles.textInput}
-              placeholder="Bạn đang nghĩ gì?"
-              onChangeText={(value) => setPostContent(value)}
-            >
-              {postContent}
-            </TextInput>
-          </View>
-        </ScrollView>
-
-        {files && <ImageGridLayout data={files.map((file) => file.uri)} />}
-
-        <View style={styles.footer}>
-          <View style={styles.btnMedia}>
-            <Icon name="image-outline" type="ionicon" size={28} color="#555" onPress={openImagePickerAsync} />
-          </View>
-          <View style={styles.btnMedia}>
-            <Icon name="videocam-outline" type="ionicon" size={30} color="#555" onPress={showAlertBeforeBack} />
-          </View>
-          <View style={styles.btnMedia}>
-            <Icon name="link" type="feather" size={22} color="#555" onPress={showAlertBeforeBack} />
-          </View>
-        </View>
-      </View>
-    </View>
+    </PrivateRoute>
   );
 };
 

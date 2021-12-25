@@ -6,6 +6,8 @@ import { api } from '../../helpers/api';
 import PostItem from '../../components/post/PostItem';
 import useMe from '../../data/useMe';
 import { useNavigation } from '@react-navigation/core';
+import PrivateRoute from '../../components/layout/PrivateScreen';
+import SearchBar from '../../components/layout/SearchBar';
 
 const PostList = () => {
   const navigation = useNavigation();
@@ -31,7 +33,9 @@ const PostList = () => {
   if (error) return <Text>Something error</Text>;
 
   return (
-    <>
+    <PrivateRoute>
+      <SearchBar />
+
       <FlatList
         style={{ flexGrow: 0 }}
         data={data ? data.data : []}
@@ -77,7 +81,7 @@ const PostList = () => {
       />
 
       {isLoading && <ActivityIndicator style={{ marginTop: 20, marginBottom: 20 }} />}
-    </>
+    </PrivateRoute>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from 'react-query';
 import { api } from '../helpers/api';
 
-const LIMIT = 12;
+const LIMIT = 20;
 const useMessageFriend = (firendId) =>
   useInfiniteQuery(
     ['message friends', firendId],

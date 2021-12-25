@@ -1,15 +1,19 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import { getRelativeTimeFromNow } from '../../helpers/date';
 
-const ChatItem = ({ type, showDate, showAvatar, msgData, avartar_url }) => {
+const ChatItem = ({ type, showDate, showAvatar, msgData, avatar_url, isLoading }) => {
   switch (type) {
     case 1:
       return (
         <View>
           {showDate && <Text style={styles.txtTimeFullDisplay}>{getRelativeTimeFromNow(msgData.created_at)}</Text>}
-          <View style={[styles.msgWrapper, styles.sentMsg]}>
-            <Text style={styles.msgContent}>{msgData?.content}</Text>
+          <View style={{ display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            {isLoading && <ActivityIndicator size="small" />}
+            <View style={[styles.msgWrapper, styles.sentMsg, isLoading && styles.isLoadingSend]}>
+              <Text style={styles.msgContent}>{msgData?.content}</Text>
+            </View>
           </View>
         </View>
       );
@@ -23,7 +27,7 @@ const ChatItem = ({ type, showDate, showAvatar, msgData, avartar_url }) => {
                 <Image
                   style={styles.avatar}
                   resizeMode="cover"
-                  source={{ uri: avartar_url || require('../../assets/defaultAvatar.jpeg') }}
+                  source={{ uri: avatar_url || require('../../assets/defaultAvatar.jpeg') }}
                 />
               )}
             </View>
@@ -96,6 +100,10 @@ const styles = StyleSheet.create({
   },
   flexSpace: {
     flex: 1,
+  },
+  isLoadingSend: {
+    opacity: 0.6,
+    marginLeft: 10,
   },
 });
 

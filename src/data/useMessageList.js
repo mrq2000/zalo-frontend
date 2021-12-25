@@ -14,7 +14,9 @@ const useMessageList = () =>
       return res.data;
     },
     {
-      staleTime: 300000,
+      staleTime: 0,
+      cacheTime: 0,
+      keepPreviousData: true,
     },
   );
 
