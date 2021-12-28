@@ -1,22 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
-
-const W = Dimensions.get('window').width;
-const H = Dimensions.get('window').height;
-
-/**
- * Lấy ra tỉ lệ ảnh
- * @param {String} imgUri uri của ảnh
- * @returns tỉ lệ chiều rộng / chiều cao
- */
-const getRatio = (imgUri) => {
-  try {
-    Image.getSize(imgUri, (width, height) => {
-      return width / height;
-    });
-  } catch {}
-  return 1.5;
-};
+import React from 'react';
+import { StyleSheet, View, Image } from 'react-native';
 
 const ImageGridLayout = ({ data }) => {
   if (!data || data.length == 0) {
@@ -101,7 +84,6 @@ const ImageGridLayout = ({ data }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    margin: 15,
     borderRadius: 10,
     overflow: 'hidden',
     flexDirection: 'row',

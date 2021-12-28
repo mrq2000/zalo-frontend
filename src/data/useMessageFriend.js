@@ -5,11 +5,11 @@ const LIMIT = 20;
 const useMessageFriend = (firendId) =>
   useInfiniteQuery(
     ['message friends', firendId],
-    async () => {
+    async ({ pageParam = 'null' }) => {
       const res = await api.get(`/messages/friends/${firendId}`, {
         params: {
-          cursor: 'null',
-          limit: LIMIT,
+          cursor: pageParam,
+          limit: pageParam == 'null' ? LIMIT : 10,
         },
       });
       return res.data;

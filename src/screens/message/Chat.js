@@ -7,11 +7,12 @@ import {
   View,
   TextInput,
   Text,
-  StatusBar,
   FlatList,
   ActivityIndicator,
   Alert,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Icon } from 'react-native-elements';
@@ -27,7 +28,6 @@ import useTabBarBadge from '../../stores/useTabBarBadge';
 
 const Chat = () => {
   const route = useRoute();
-  const listMsgRef = useRef();
   const { data: me } = useMe();
   const { socket } = useSocket();
   const navigation = useNavigation();
@@ -39,7 +39,7 @@ const Chat = () => {
   const [idsLoading, setIdsLoading] = useState([]);
 
   const friendId = route.params?.friendId;
-  const { data, isFetching } = useMessageFriend(friendId);
+  const { data, isFetching, fetchNextPage, hasNextPage } = useMessageFriend(friendId);
   const { data: friendInfo } = useUserInfo(friendId);
   const meId = me?.id;
 
@@ -53,8 +53,8 @@ const Chat = () => {
       let newMessages = [];
       data.pages.forEach(({ messages: item }) => {
         const newItem = [...item];
-        newItem.reverse();
-        newMessages = [...newItem, ...newMessages];
+        newItem;
+        newMessages = [...newMessages, ...newItem];
       });
       setMessages(newMessages);
     }
@@ -63,10 +63,10 @@ const Chat = () => {
   const renderChatItem = ({ item: message, index }) => {
     // có hiển thị ngày hay không
     let showDate = false;
-    if (index == 0) {
+    if (index == messages.length - 1) {
       showDate = true;
     } else {
-      let minDff = dayjs(message.created_at).diff(messages[index - 1].created_at, 'minute', true);
+      let minDff = dayjs(message.created_at).diff(messages[index + 1].created_at, 'minute', true);
       if (minDff > 5) {
         showDate = true;
       }
@@ -95,6 +95,7 @@ const Chat = () => {
   /**
    * Xử lý việc gửi tin nhắn
    */
+
   const sendMessage = () => {
     if (socket) {
       const currentId = uuidv4();
@@ -151,8 +152,7 @@ const Chat = () => {
 
   return (
     <PrivateRoute>
-      <View style={styles.container}>
-        <StatusBar barStyle="default" />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <LinearGradient colors={['#257afe', '#109afb', '#01b8f9']} start={[0, 1]} end={[1, 0]} style={styles.header}>
           <View style={styles.btnBack}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -170,20 +170,32 @@ const Chat = () => {
         </LinearGradient>
 
         <View style={styles.body}>
-          <FlatList
-            style={styles.messageContainer}
-            data={messages}
-            renderItem={renderChatItem}
-            keyExtractor={(item) => item.id.toString()}
-            ref={listMsgRef}
-            onContentSizeChange={(contentWidth, contentHeight) => {
-              {
-                listMsgRef.current.scrollToEnd({ animated: true });
-              }
-            }}
-            ListHeaderComponent={() => <View style={{ marginTop: 10 }}>{isFetching && <ActivityIndicator />}</View>}
-            ListFooterComponent={() => <View style={{ paddingBottom: 20 }}></View>}
-          />
+          <View style={styles.messageContainer}>
+            <FlatList
+              data={messages}
+              renderItem={renderChatItem}
+              keyExtractor={(item) => item.id?.toString()}
+              ListFooterComponent={() => (
+                <View style={{ marginTop: 10 }}>
+                  {isFetching && hasNextPage && <ActivityIndicator />}
+                  {data && !hasNextPage && (
+                    <View style={{ marginBottom: 10, paddingHorizontal: 10 }}>
+                      <Text style={{ textAlign: 'center', color: '#626262', fontSize: 16 }}>
+                        Bạn đã xem hết tin nhắn
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
+              inverted
+              onEndReached={({ distanceFromEnd }) => {
+                if (distanceFromEnd >= 0) {
+                  fetchNextPage();
+                }
+              }}
+              onEndReachedThreshold={0.7}
+            />
+          </View>
         </View>
 
         <View style={styles.footer}>
@@ -210,7 +222,7 @@ const Chat = () => {
             </View>
           )}
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </PrivateRoute>
   );
 };
@@ -245,7 +257,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   partnerUsername: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 16,
     color: '#fff',
@@ -256,7 +267,6 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: '#e0e8f1',
-    // paddingVertical: 15,
     flex: 10,
   },
   textInput: {
@@ -270,23 +280,24 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     backgroundColor: '#f5f5f5',
     elevation: 20,
+    display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingVertical: 10,
+    flexShrink: 1,
+    paddingBottom: 20,
   },
   msgContent: {
-    flex: 1,
+    flex: 100,
     flexShrink: 1,
-    paddingHorizontal: 10,
     fontSize: 18,
-    lineHeight: 27,
     maxHeight: 108,
   },
   messageContainer: {
+    flex: 1,
     display: 'flex',
-    flexDirection: 'column-reverse',
   },
 });
 

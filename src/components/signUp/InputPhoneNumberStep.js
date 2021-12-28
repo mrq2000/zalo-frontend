@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Text, StyleSheet, View, TextInput, Alert } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 
-import useStoreStatusStyle from '../../stores/useStoreStatusStyle';
-import { api, setToken } from '../../helpers/api';
+import { api } from '../../helpers/api';
 
 const HEADER_BACKGROUND_COLOR = '#0068ff';
 
@@ -28,10 +27,10 @@ const InputPhoneNumberStep = ({ phoneNumber, setPhoneNumber, setUserDuplicate, s
         setUserDuplicate(data);
         setCurrentStep('duplicatePhone');
       },
-      onError: (err) => {
+      onError: async (err) => {
         const errorData = err?.response?.data;
         if (errorData?.code === 995) {
-          setCurrentStep('inputName');
+          setCurrentStep('inputOTPsss');
         } else {
           Alert.alert('Đăng bài thất bại', 'Vui lòng thử lại sau!');
         }

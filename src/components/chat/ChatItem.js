@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { DEFAULT_AVATAR } from '../../env';
 import { getRelativeTimeFromNow } from '../../helpers/date';
 
 const ChatItem = ({ type, showDate, showAvatar, msgData, avatar_url, isLoading }) => {
@@ -24,11 +25,7 @@ const ChatItem = ({ type, showDate, showAvatar, msgData, avatar_url, isLoading }
           <View style={styles.container}>
             <View style={styles.avatarWrapper}>
               {showAvatar && (
-                <Image
-                  style={styles.avatar}
-                  resizeMode="cover"
-                  source={{ uri: avatar_url || require('../../assets/defaultAvatar.jpeg') }}
-                />
+                <Image style={styles.avatar} resizeMode="cover" source={{ uri: avatar_url || DEFAULT_AVATAR }} />
               )}
             </View>
             <View style={[styles.msgWrapper, styles.receivedMsg]}>

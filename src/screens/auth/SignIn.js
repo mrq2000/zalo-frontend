@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/core';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import InputPhoneNumberStep from '../../components/signIn/InputPhoneNumberStep';
 import useStoreStatusStyle, { HEADER_BACKGROUND_COLOR } from '../../stores/useStoreStatusStyle';

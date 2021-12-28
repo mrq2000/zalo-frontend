@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   actionNum: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 15,
     marginLeft: 6,

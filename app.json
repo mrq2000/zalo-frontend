@@ -5,7 +5,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.anhquoc123.myapp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anhquoc123.myapp"
+    }
   },
   "name": "my-app"
 }

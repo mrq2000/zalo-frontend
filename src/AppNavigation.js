@@ -112,7 +112,7 @@ const AppNavigator = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Home"
+        initialRouteName="SignUp"
       >
         <Stack.Screen name="Home" component={HomeNavigator} />
         <Stack.Screen name="Chat" component={Chat} />

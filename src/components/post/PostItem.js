@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { DEFAULT_AVATAR } from '../../env';
 import { getRelativeTimeFromNow } from '../../helpers/date';
 
 import ImageGridLayout from './ImageGridLayout';
@@ -16,7 +17,7 @@ const PostItem = ({ data }) => {
           <Image
             style={styles.avatar}
             resizeMode="cover"
-            source={data?.author?.avatar_url || require('../../assets/defaultAvatar.jpeg')}
+            source={{ uri: data?.author?.avatar_url || DEFAULT_AVATAR }}
           />
         </View>
         <View style={styles.headerInfoWrapper}>
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   userName: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 15,
     lineHeight: 20,
@@ -133,13 +133,11 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   actionNum: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 15,
     marginLeft: 6,
   },
   seeLikes: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 14,
     color: '#888',

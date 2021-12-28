@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import InputPhoneNumberStep from '../../components/signUp/InputPhoneNumberStep';
 import DuplicatePhoneStep from '../../components/signUp/DuplicatePhoneStep';
 import InputNameStep from '../../components/signUp/InputNameStep';
+import InputOTPStep from '../../components/signUp/InputOTPStep';
 
 import useStoreStatusStyle, { HEADER_BACKGROUND_COLOR } from '../../stores/useStoreStatusStyle';
 
@@ -31,6 +32,8 @@ const SignUp = () => {
         );
       case 'duplicatePhone':
         return <DuplicatePhoneStep userDuplicate={userDuplicate} setCurrentStep={setCurrentStep} />;
+      case 'inputOTP':
+        return <InputOTPStep />;
       case 'inputName':
         return <InputNameStep phonenumber={phoneNumber} />;
       default:

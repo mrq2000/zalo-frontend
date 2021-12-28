@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
+import { DEFAULT_AVATAR } from '../../env';
 
 const DuplicatePhoneStep = ({ userDuplicate, setCurrentStep }) => {
   return (
@@ -12,9 +13,7 @@ const DuplicatePhoneStep = ({ userDuplicate, setCurrentStep }) => {
         <View>
           <Image
             source={{
-              uri:
-                userDuplicate?.avatar_url ||
-                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+              uri: userDuplicate?.avatar_url || DEFAULT_AVATAR,
             }}
             style={{ width: 100, height: 100, borderRadius: 200 / 2 }}
           />

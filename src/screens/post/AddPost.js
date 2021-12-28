@@ -1,9 +1,12 @@
 import { useNavigation } from '@react-navigation/core';
+import dayjs from 'dayjs';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, ScrollView, Alert, TouchableHighlight, Text, Platform } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import PrivateRoute from '../../components/layout/PrivateScreen';
 import ImageGridLayout from '../../components/post/ImageGridLayout';
+import useMe from '../../data/useMe';
 
 import { api } from '../../helpers/api';
 
@@ -31,10 +34,13 @@ const AddPost = () => {
   const [files, setFiles] = useState(null);
   const [isDisabledBtnPost, setDisableBtnPost] = useState(true);
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const openImagePickerAsync = () => {
     navigation.navigate('ImageBrowser', { handleCallback: (photos) => setFiles(photos) });
   };
+
+  const { data: me } = useMe();
 
   useEffect(() => {
     const canPost = () => {
@@ -53,7 +59,28 @@ const AddPost = () => {
       return res.data;
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        if (queryClient.getQueryData('posts')) {
+          queryClient.setQueriesData('posts', (oldData) => {
+            return {
+              ...oldData,
+              pages: [
+                [
+                  {
+                    ...data.data,
+                    author: {
+                      id: me.me,
+                      full_name: me.full_name,
+                      avatar_url: me.avatar_url,
+                    },
+                    created_at: dayjs(),
+                  },
+                ],
+                ...oldData.pages,
+              ],
+            };
+          });
+        }
         navigation.navigate('Home');
       },
       onError: (error) => {
@@ -81,7 +108,6 @@ const AddPost = () => {
 
   return (
     <PrivateRoute>
-
       <View style={styles.container}>
         <View style={styles.header}>
           <View>
@@ -125,7 +151,7 @@ const AddPost = () => {
             </View>
           </ScrollView>
 
-          {files && <ImageGridLayout data={files.map((file) => file.uri)} />}
+          <View style={{ padding: 10 }}>{files && <ImageGridLayout data={files.map((file) => file.uri)} />}</View>
 
           <View style={styles.footer}>
             <View style={styles.btnMedia}>

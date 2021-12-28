@@ -9,8 +9,7 @@ import SearchBar from '../../components/layout/SearchBar';
 const Message = () => {
   const { data, isLoading } = useMessageList();
 
-  const renderMsgItem = ({ item }) => <MessageItem data={item} />;
-
+  const renderMsgItem = ({ item }) => <MessageItem key={item.firendId} data={item} />;
   const renderFindMoreFriendWrapper = () => (
     <View style={styles.findMoreFriendWrapper}>
       <Text style={styles.txtFMF}>Dễ dàng tìm kiếm và trò chuyện với bạn bè</Text>
@@ -56,7 +55,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   btnFMFTitle: {
-    fontFamily: 'Roboto',
     fontWeight: '600',
     fontSize: 14,
     textTransform: 'uppercase',

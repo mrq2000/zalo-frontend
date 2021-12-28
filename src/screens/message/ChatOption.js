@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   headerTitle: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 16,
     color: '#fff',
@@ -101,7 +100,6 @@ const styles = StyleSheet.create({
   },
   txtPartnerName: {
     marginTop: 10,
-    fontFamily: 'Roboto',
     fontSize: 20,
     fontWeight: '700',
   },

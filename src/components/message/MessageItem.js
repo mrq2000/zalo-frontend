@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity, Touchable } from 'react-native';
 import { getRelativeTimeFromNow } from '../../helpers/date';
-import defaultAvatar from '../../assets/defaultAvatar.jpeg';
 import useMe from '../../data/useMe';
 import { useNavigation } from '@react-navigation/core';
 import useTabBarBadge from '../../stores/useTabBarBadge';
 import useUserInfo from '../../data/useUserInfo';
+import { DEFAULT_AVATAR } from '../../env';
 
 const MessageItem = ({ data }) => {
   const { data: me } = useMe();
@@ -25,7 +25,7 @@ const MessageItem = ({ data }) => {
           <Image
             style={styles.avatar}
             resizeMode="cover"
-            source={{ uri: data?.avatar_url || friendInfo?.avatar_url || defaultAvatar }}
+            source={{ uri: data?.avatar_url || friendInfo?.avatar_url || DEFAULT_AVATAR }}
           />
         </View>
         <View style={styles.bodyWrapper}>
@@ -86,13 +86,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   username: {
-    fontFamily: 'Roboto',
     fontWeight: '600',
     fontSize: 16,
     flexShrink: 1,
   },
   msgTime: {
-    fontFamily: 'Roboto',
     fontWeight: '600',
     fontSize: 12,
     color: '#888',
@@ -103,13 +101,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   lastMsgContent: {
-    fontFamily: 'Roboto',
     fontWeight: '600',
     fontSize: 14,
     color: '#888',
   },
   markUnread: {
-    fontFamily: 'Roboto',
     fontWeight: '700',
     fontSize: 10,
     borderRadius: 10,

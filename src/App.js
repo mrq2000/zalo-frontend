@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StatusBar, View, Platform } from 'react-native';
-import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
+import { SafeAreaView, StatusBar, View, Platform, LogBox } from 'react-native';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import io from 'socket.io-client';
-import useSocket from './stores/useSocket';
 
+import useSocket from './stores/useSocket';
 import AppNavigator from './AppNavigation';
 import useStoreStatusStyle from './stores/useStoreStatusStyle';
 import { getToken } from './helpers/storage';
@@ -26,6 +26,7 @@ const App = () => {
   const statusBarStyle = useStoreStatusStyle((state) => state.statusBarStyle);
   const { setSocket } = useSocket();
   const [userToken, setUserToken] = useState();
+  LogBox.ignoreAllLogs();
 
   useEffect(() => {
     if (userToken) {

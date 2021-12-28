@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     color: '#0068ff',
     fontSize: 60,
     fontWeight: '700',
-    fontFamily: 'Roboto',
   },
   // button
   btnWrapper: {

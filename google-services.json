@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "103457727754",
+    "firebase_url": "https://newproject-7dbc9.firebaseio.com",
+    "project_id": "newproject-7dbc9",
+    "storage_bucket": "newproject-7dbc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103457727754:android:c5c057eda9356c4e8b46f3",
+        "android_client_info": {
+          "package_name": "bk.zalo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103457727754-orsn947ooudghch2cegd2gq5gd9f42du.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_45M-4tixPjDe5bdI74zTkGBasOo7-JU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103457727754-orsn947ooudghch2cegd2gq5gd9f42du.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "103457727754-a0pbru7p5209b3rgesbgejmiebn50ukn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "bk-zalo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

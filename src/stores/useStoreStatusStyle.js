@@ -7,7 +7,7 @@ const DEFAULT_STORE = {
     barStyle: 'dark-content',
   },
   viewStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: HEADER_BACKGROUND_COLOR,
   },
 };
 
