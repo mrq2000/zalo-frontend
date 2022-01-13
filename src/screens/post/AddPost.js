@@ -1,7 +1,17 @@
 import { useNavigation } from '@react-navigation/core';
 import dayjs from 'dayjs';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, ScrollView, Alert, TouchableHighlight, Text, Platform } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+  Alert,
+  TouchableHighlight,
+  Text,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useMutation, useQueryClient } from 'react-query';
 import PrivateRoute from '../../components/layout/PrivateScreen';
@@ -50,7 +60,7 @@ const AddPost = () => {
         return true;
       }
     };
-    setDisableBtnPost(canPost);
+    setDisableBtnPost(canPost());
   }, [postContent]);
 
   const { mutate: addPost, isLoading } = useMutation(
@@ -108,7 +118,7 @@ const AddPost = () => {
 
   return (
     <PrivateRoute>
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.header}>
           <View>
             <Icon
@@ -165,7 +175,7 @@ const AddPost = () => {
             </View>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </PrivateRoute>
   );
 };

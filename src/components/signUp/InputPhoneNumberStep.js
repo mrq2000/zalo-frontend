@@ -30,7 +30,7 @@ const InputPhoneNumberStep = ({ phoneNumber, setPhoneNumber, setUserDuplicate, s
       onError: async (err) => {
         const errorData = err?.response?.data;
         if (errorData?.code === 995) {
-          setCurrentStep('inputOTPsss');
+          setCurrentStep('inputName');
         } else {
           Alert.alert('Đăng bài thất bại', 'Vui lòng thử lại sau!');
         }

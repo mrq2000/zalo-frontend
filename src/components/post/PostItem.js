@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Icon } from 'react-native-elements';
+import useMe from '../../data/useMe';
 import { DEFAULT_AVATAR } from '../../env';
 import { getRelativeTimeFromNow } from '../../helpers/date';
 
@@ -8,6 +9,9 @@ import ImageGridLayout from './ImageGridLayout';
 import LikePost from './LikePost';
 
 const PostItem = ({ data }) => {
+  const { data: me } = useMe();
+  const isMyPost = me?.id == data?.author?.id;
+
   return (
     <View style={styles.postItemWrapper}>
       <StatusBar barStyle="default" />
@@ -30,7 +34,7 @@ const PostItem = ({ data }) => {
         <View style={styles.flexSpace} />
 
         <View style={styles.headerOptionWrapper}>
-          <Icon name="dots-three-horizontal" type="entypo" size={20} color="#888" onPress={() => {}} />
+          {isMyPost && <Icon name="dots-three-horizontal" type="entypo" size={20} color="#888" onPress={() => {}} />}
         </View>
       </View>
 

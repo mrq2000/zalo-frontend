@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NavigationContainer, useRoute } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Icon } from 'react-native-elements';
@@ -14,23 +14,28 @@ import AuthIntro from './screens/auth/AuthIntro';
 import PostList from './screens/post/PostList';
 import Message from './screens/message/Message';
 import Chat from './screens/message/Chat';
+import Account from './screens/account/Account';
+import AccountSetting from './screens/account/AccountSetting';
+
 import useTabBarBadge from './stores/useTabBarBadge';
 import useSocket from './stores/useSocket';
 import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
+import Search from './screens/search/Search';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const HomeNavigator = () => {
-  const { message, postList, account, setTabBarBadge } = useTabBarBadge();
+  const { message, postList, account, setTabBarBadge, notification } = useTabBarBadge();
   const { socket } = useSocket();
   const queryClient = useQueryClient();
 
   const TABS = [
     { label: 'Tin nhắn', icon: 'commenting-o', component: Message, name: 'Message', tabBarBadge: message.length },
     { label: 'Nhật ký', icon: 'home', component: PostList, name: 'PostList', tabBarBadge: postList },
-    { label: 'Cá nhân', icon: 'user-o', component: Home, name: 'Account', tabBarBadge: account },
+    { label: 'Thông báo', icon: 'bell-o', component: PostList, name: 'Notification', tabBarBadge: notification },
+    { label: 'Cá nhân', icon: 'user-o', component: Account, name: 'Account', tabBarBadge: account },
   ];
 
   useEffect(() => {
@@ -83,7 +88,7 @@ const HomeNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Message"
+      initialRouteName="Account"
       activeColor="#1C86EE"
       inactiveColor="#607B8B"
       barStyle={{ backgroundColor: '#fff' }}
@@ -112,10 +117,11 @@ const AppNavigator = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="SignUp"
+        initialRouteName="Home"
       >
         <Stack.Screen name="Home" component={HomeNavigator} />
         <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen name="Search" component={Search} />
 
         <Stack.Screen name="AddPost" component={AddPost} />
         <Stack.Screen

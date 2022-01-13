@@ -4,6 +4,7 @@ const useTabBarBadge = create((set) => ({
   message: [],
   postList: 0,
   account: 0,
+  notification: 0,
   setTabBarBadge: (data) => set(() => ({ ...data })),
 }));
 

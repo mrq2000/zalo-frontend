@@ -21,7 +21,7 @@ const PostList = () => {
     async ({ pageParam = '' }) => {
       const response = await api.get('/posts', {
         params: {
-          count: 12,
+          count: COUNT,
           last_id: pageParam,
         },
       });

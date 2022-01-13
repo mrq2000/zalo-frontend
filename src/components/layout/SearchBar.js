@@ -1,8 +1,12 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/core';
+import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, TouchableHighlight, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const SearchBar = () => {
+  const navigation = useNavigation();
+  const [keyword, setKeyWord] = useState('');
+
   return (
     <View style={styles.header}>
       <View style={[styles.row, styles.alignItemsCenter]}>
@@ -11,8 +15,18 @@ const SearchBar = () => {
           style={styles.searchInput}
           placeholderTextColor="rgba(255,255,255,0.5)"
           placeholder="Tìm bạn bè, tin nhắn ..."
-          onChangeText={(value) => setSearchQuery(value)}
+          onChangeText={(value) => setKeyWord(value)}
         />
+
+        <TouchableHighlight
+          onPress={() => {
+            navigation.navigate('Search', { keyword });
+          }}
+        >
+          <View style={[styles.row, styles.alignItemsCenter]}>
+            <Icon style={{ marginRight: 10 }} name="search-outline" type="ionicon" size={24} color="#fff" />
+          </View>
+        </TouchableHighlight>
       </View>
 
       <TouchableHighlight onPress={() => {}}>
@@ -54,7 +68,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     borderBottomColor: 'rgba(255,255,255,0.5)',
     borderBottomWidth: 1,
-    width: '85%'
+    width: '85%',
   },
   btnQr: {
     color: '#fff',
