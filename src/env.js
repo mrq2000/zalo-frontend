@@ -1,5 +1,6 @@
 // export const API = 'https://bk-zalo-clone.herokuapp.com/';
-export const API = 'http://localhost:3000//';
+// export const API = 'http://localhost:3000/';
+export const API = 'https://dbe3-42-116-156-95.ngrok.io/';
 
 export const USER_TOKEN = 'USER_TOKEN';
 export const TIME_ZONE = 'Asia/Ho_Chi_Minh';

@@ -15,7 +15,8 @@ import PostList from './screens/post/PostList';
 import Message from './screens/message/Message';
 import Chat from './screens/message/Chat';
 import Account from './screens/account/Account';
-import AccountSetting from './screens/account/AccountSetting';
+import Notification from './screens/notification';
+import UserAccount from './screens/account/UserAccount';
 
 import useTabBarBadge from './stores/useTabBarBadge';
 import useSocket from './stores/useSocket';
@@ -34,7 +35,7 @@ const HomeNavigator = () => {
   const TABS = [
     { label: 'Tin nhắn', icon: 'commenting-o', component: Message, name: 'Message', tabBarBadge: message.length },
     { label: 'Nhật ký', icon: 'home', component: PostList, name: 'PostList', tabBarBadge: postList },
-    { label: 'Thông báo', icon: 'bell-o', component: PostList, name: 'Notification', tabBarBadge: notification },
+    { label: 'Thông báo', icon: 'bell-o', component: Notification, name: 'Notification', tabBarBadge: notification },
     { label: 'Cá nhân', icon: 'user-o', component: Account, name: 'Account', tabBarBadge: account },
   ];
 
@@ -88,7 +89,7 @@ const HomeNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Account"
+      initialRouteName="Notification"
       activeColor="#1C86EE"
       inactiveColor="#607B8B"
       barStyle={{ backgroundColor: '#fff' }}
@@ -122,6 +123,7 @@ const AppNavigator = () => {
         <Stack.Screen name="Home" component={HomeNavigator} />
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen name="UserAccount" component={UserAccount} />
 
         <Stack.Screen name="AddPost" component={AddPost} />
         <Stack.Screen

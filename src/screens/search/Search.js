@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -12,16 +12,15 @@ import SearchBar from '../../components/layout/SearchBar';
 import useSearch from '../../data/useSearch';
 
 const Search = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const route = useRoute();
-
   const { data, isLoading } = useSearch(route.params?.keyword || '');
+
   return (
     <View style={styles.container}>
       <SearchBar />
       <View style={styles.body}>
         <View style={{ flex: 1 }}>
-          {isLoading ? <ActivityIndicator size="small" /> : <SearchResult data={data} />}
+          {isLoading ? <ActivityIndicator size="small" style={{ marginTop: 20 }} /> : <SearchResult data={data} />}
         </View>
       </View>
     </View>

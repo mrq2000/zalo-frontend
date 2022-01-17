@@ -1,49 +1,15 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { ListItem, Avatar, Tab, TabView } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/core';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
-import { StyleSheet, View } from 'react-native';
 import { DEFAULT_AVATAR } from '../../env';
 import FriendStatusButton from '../../components/common/FriendStatusButton';
 
 const SearchResult = ({ data }) => {
   const [index, setIndex] = useState(0);
-  const [list, setList] = useState([]);
-  console.log(data);
-
-  /**
-   * 
-   * Lấy dữ liệu từ Api
-   */
-  const search = () => {
-    return [
-      {
-        name: 'Nhóm bạn bè hàng đầu thế giới',
-        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
-        subtitle: 'Zalo của Nhóm bạn bè hàng đầu'
-      },
-      {
-        name: 'Nhóm nhà quản trị tương lai',
-        subtitle: 'Zalo của Nhóm nhà quản trị tương lai'
-      },
-      {
-        name: 'Nhóm rạp xiếc',
-        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
-        subtitle: 'Zalo của Nhóm rạp xiếc'
-      },
-      {
-        name: 'Nhóm Hiếu và những người bạn',
-        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
-        subtitle: 'Zalo của Nhóm Hiếu và những người bạn'
-      },
-      {
-        name: 'Nhóm Quốc leader và những người bạn',
-        avatar_url: 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg',
-        subtitle: 'Zalo của Nhóm Quốc leader và những người bạn'
-      },
-      // more items
-    ];
-  }
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -66,14 +32,18 @@ const SearchResult = ({ data }) => {
             {
               data.map((user) => (
                 <ListItem containerStyle={styles.listItem} key={user.id} bottomDivider={false}>
-                  <Avatar rounded source={{ uri: user.avatar_url || DEFAULT_AVATAR }} />
+                  <TouchableOpacity onPress={() => navigation.navigate('UserAccount', { userId: user.id })}>
+                    <Avatar rounded source={{ uri: user.avatar_url || DEFAULT_AVATAR }} />
+                  </TouchableOpacity>
                   <ListItem.Content style={{ display: 'flex', flex: 1 }}>
-                    <ListItem.Title>{user.full_name}</ListItem.Title>
-                    <ListItem.Subtitle>{user.phonenumber}</ListItem.Subtitle>
+                    <TouchableOpacity onPress={() => navigation.navigate('UserAccount', { userId: user.id })}>
+                      <ListItem.Title style={{ fontWeight: 'bold' }}>{user.full_name}</ListItem.Title>
+                    </TouchableOpacity>
+                    <ListItem.Subtitle style={{ color: '#626262' }}>{user.phonenumber}</ListItem.Subtitle>
                   </ListItem.Content>
-                  
+
                   <View>
-                    <FriendStatusButton meRecive={user.meReceiveRequest} meSend={user.meSendRequest} />
+                    <FriendStatusButton meSend={user.meReceiveRequest} meRecive={user.meSendRequest} />
                   </View>
                 </ListItem>
               ))
@@ -87,8 +57,8 @@ const SearchResult = ({ data }) => {
                 <ListItem containerStyle={styles.listItem} key={user.id} bottomDivider={false}>
                   <Avatar rounded source={{ uri: user.avatar_url || DEFAULT_AVATAR }} />
                   <ListItem.Content>
-                    <ListItem.Title>{user.full_name}</ListItem.Title>
-                    <ListItem.Subtitle>{user.subtitle}</ListItem.Subtitle>
+                    <ListItem.Title style={{ fontWeight: 'bold' }}>{user.full_name}</ListItem.Title>
+                    <ListItem.Subtitle style={{ color: '#626262' }}>{user.subtitle}</ListItem.Subtitle>
                   </ListItem.Content>
                 </ListItem>
               ))
@@ -103,6 +73,8 @@ const SearchResult = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    display: 'flex',
+    flex: 1,
   },
   listItem: {
     borderRadius: 10,

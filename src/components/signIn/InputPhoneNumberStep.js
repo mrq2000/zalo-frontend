@@ -36,6 +36,7 @@ const InputPhoneNumberStep = ({ defaultPhonenumber }) => {
         }
       },
       onError: (err) => {
+        console.log(err);
         setErrorMessage(err?.response?.data?.message || 'Có lỗi xảy ra');
       },
     },

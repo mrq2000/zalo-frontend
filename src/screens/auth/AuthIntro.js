@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 
 const AuthIntro = () => {
   const navigation = useNavigation();
@@ -12,21 +12,21 @@ const AuthIntro = () => {
       </View>
 
       <View style={styles.btnWrapper}>
-        <TouchableHighlight
+        <TouchableOpacity
           underlayColor="#0068ff"
           style={[styles.btn, styles.btnPrimary]}
           onPress={() => navigation.navigate('SignIn')}
         >
           <Text style={[styles.btnText, styles.btnPrimaryText]}>Đăng nhập</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
 
-        <TouchableHighlight
+        <TouchableOpacity
           underlayColor="#c6c8cc"
           style={[styles.btn, styles.btnSecondary]}
           onPress={() => navigation.navigate('SignUp')}
         >
           <Text style={[styles.btnText, styles.btnSecondaryText]}>Đăng ký</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     </View>
   );

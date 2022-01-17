@@ -7,7 +7,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  TouchableHighlight,
+  TouchableOpacity,
   Text,
   Platform,
   KeyboardAvoidingView,
@@ -141,9 +141,9 @@ const AddPost = () => {
           <View style={styles.flexSpace} />
 
           <View>
-            <TouchableHighlight disabled={isLoading || isDisabledBtnPost} onPress={handleAddPost}>
+            <TouchableOpacity disabled={isLoading || isDisabledBtnPost} onPress={handleAddPost}>
               <Text style={[styles.btnPostText, { opacity: isLoading || isDisabledBtnPost ? 0.2 : 1 }]}>Đăng</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
 

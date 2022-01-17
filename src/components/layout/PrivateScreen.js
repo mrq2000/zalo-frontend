@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 import useMe from '../../data/useMe';
 import useStoreStatusStyle, { HEADER_BACKGROUND_COLOR } from '../../stores/useStoreStatusStyle';
@@ -24,7 +24,7 @@ const PrivateRoute = ({ children }) => {
     return () => resetStatusBarStyles();
   }, []);
 
-  if (isLoading) return <Text>Loading....</Text>;
+  if (isLoading) return <ActivityIndicator style={{ marginTop: 20 }} />;
   if (error) {
     navigation.navigate('AuthIntro');
   }

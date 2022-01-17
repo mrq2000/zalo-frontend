@@ -79,7 +79,7 @@ const Account = () => {
                   rounded
                   size={120}
                   containerStyle={styles.avatar}
-                  source={data?.avatar_url || DEFAULT_AVATAR}
+                  source={{ uri: data?.avatar_url || DEFAULT_AVATAR }}
                 />
               </View>
               <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 2 }}>
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     marginTop: -100,
     borderColor: '#fff',
     borderWidth: 2,
+    backgroundColor: '#00b4d8'
   },
   body: {
     flex: 1,

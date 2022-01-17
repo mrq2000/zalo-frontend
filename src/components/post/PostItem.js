@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { StyleSheet, View, Image, Text, StatusBar, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import useMe from '../../data/useMe';
 import { DEFAULT_AVATAR } from '../../env';
@@ -11,25 +12,41 @@ import LikePost from './LikePost';
 const PostItem = ({ data }) => {
   const { data: me } = useMe();
   const isMyPost = me?.id == data?.author?.id;
+  const navigation = useNavigation();
 
   return (
     <View style={styles.postItemWrapper}>
       <StatusBar barStyle="default" />
 
       <View style={styles.header}>
-        <View style={styles.headerAvatarWrapper}>
+        <TouchableOpacity
+          onPress={() => {
+            if (!isMyPost) {
+              navigation.navigate('UserAccount', { userId: data?.author?.id });
+            }
+          }}
+          style={styles.headerAvatarWrapper}
+        >
           <Image
             style={styles.avatar}
             resizeMode="cover"
             source={{ uri: data?.author?.avatar_url || DEFAULT_AVATAR }}
           />
-        </View>
-        <View style={styles.headerInfoWrapper}>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            if (!isMyPost) {
+              navigation.navigate('UserAccount', { userId: data?.author?.id });
+            }
+          }}
+          style={styles.headerInfoWrapper}
+        >
           <Text style={styles.userInfo}>
             <Text style={styles.userName}>{data?.author?.full_name}</Text>
           </Text>
           <Text style={styles.timeInfo}>{getRelativeTimeFromNow(data.created_at)}</Text>
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.flexSpace} />
 
