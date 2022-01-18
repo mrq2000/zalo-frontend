@@ -43,7 +43,7 @@ const SearchResult = ({ data }) => {
                   </ListItem.Content>
 
                   <View>
-                    <FriendStatusButton meSend={user.meReceiveRequest} meRecive={user.meSendRequest} />
+                    <FriendStatusButton friendId={user.id} meSend={user.meReceiveRequest} meRecive={user.meSendRequest} />
                   </View>
                 </ListItem>
               ))

@@ -30,7 +30,7 @@ const PostItem = ({ data }) => {
           <Image
             style={styles.avatar}
             resizeMode="cover"
-            source={{ uri: data?.author?.avatar_url || DEFAULT_AVATAR }}
+            source={{ uri: (isMyPost ? me.avatar_url : data?.author?.avatar_url) || DEFAULT_AVATAR }}
           />
         </TouchableOpacity>
 
@@ -43,7 +43,7 @@ const PostItem = ({ data }) => {
           style={styles.headerInfoWrapper}
         >
           <Text style={styles.userInfo}>
-            <Text style={styles.userName}>{data?.author?.full_name}</Text>
+            <Text style={styles.userName}>{isMyPost ? me.full_name : data?.author?.full_name}</Text>
           </Text>
           <Text style={styles.timeInfo}>{getRelativeTimeFromNow(data.created_at)}</Text>
         </TouchableOpacity>
@@ -69,7 +69,15 @@ const PostItem = ({ data }) => {
         />
 
         <View style={styles.footerActionWrapper}>
-          <Icon name="comment-processing-outline" type="material-community" size={26} color="#888" onPress={() => {}} />
+          <Icon
+            name="comment-processing-outline"
+            type="material-community"
+            size={26}
+            color="#888"
+            onPress={() => {
+              navigation.navigate('PostDetail', { postId: data?.id });
+            }}
+          />
           <Text style={styles.actionNum}>{data?.comment_count}</Text>
         </View>
         <View style={styles.flexSpace} />
@@ -94,7 +102,6 @@ const styles = StyleSheet.create({
   flexSpace: {
     flex: 1,
   },
-  // header chứa avatar, tên, hành động, thời gian... bài viết
   header: {
     flexDirection: 'row',
     alignItems: 'center',

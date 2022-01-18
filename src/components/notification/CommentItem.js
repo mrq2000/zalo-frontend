@@ -7,19 +7,18 @@ import useUserInfo from '../../data/useUserInfo';
 import { DEFAULT_AVATAR } from '../../env';
 import { getLocalizedFormat } from '../../helpers/date';
 
-const FriendRequestItem = ({ data, accept }) => {
-  const { data: userInfo, isFetching, isError } = useUserInfo(data.content);
+const CommentItem = ({ data }) => {
+  const formatData = data.content.split('-');
+  const { data: userInfo, isFetching, isError } = useUserInfo(formatData[0]);
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('UserAccount', { userId: data.content })}>
+    <TouchableOpacity onPress={() => navigation.navigate('PostDetail', { postId: formatData[1] })}>
       <ListItem containerStyle={styles.listItem} key={data.id} bottomDivider={false}>
         <Avatar rounded source={{ uri: userInfo?.avatar_url || DEFAULT_AVATAR }} />
         <ListItem.Content style={{ display: 'flex', flex: 4 }}>
           <ListItem.Title style={{ fontWeight: 'bold' }}>{userInfo?.full_name}</ListItem.Title>
-          <ListItem.Subtitle style={{ color: '#626262' }}>
-            {accept ? 'Đã đồng ý lời mời kết bạn của bạn' : 'Đã gửi cho bạn lời mời kết bạn'}
-          </ListItem.Subtitle>
+          <ListItem.Subtitle style={{ color: '#626262' }}>Đã bình luận về 1 bài viết của bạn</ListItem.Subtitle>
         </ListItem.Content>
 
         <View style={{ position: 'absolute', top: 10, right: 10 }}>
@@ -39,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FriendRequestItem;
+export default CommentItem;

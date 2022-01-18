@@ -62,7 +62,7 @@ const UserAccount = () => {
   return (
     <PrivateRoute>
       <TouchableOpacity
-        style={{ position: 'absolute', left: 15, top: 15, zIndex: 10000, backgroundColor: '#00b4d8', borderRadius: '100%' }}
+        style={{ position: 'absolute', left: 15, top: 15, zIndex: 10000, backgroundColor: '#00b4d8', borderRadius: '100%', opacity: 0.5 }}
         onPress={() => navigation.goBack()}
       >
         <Icon name="md-arrow-back-outline" type="ionicon" size={30} color="#fff" />
@@ -99,12 +99,28 @@ const UserAccount = () => {
                     source={{ uri: data?.avatar_url || DEFAULT_AVATAR }}
                   />
                 </View>
+                
                 <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 2 }}>
                   {data?.full_name}
                 </Text>
-                <View style={{ marginVertical: 10, paddingHorizontal: 30, display: 'flex', alignItems: 'center' }}>
-                  {!isLoading && <FriendStatusButton meRecive={data?.friendStatus?.sender_id == userId ? data?.friendStatus : null}
-                    meSend={data?.friendStatus?.receiver_id == userId ? data?.friendStatus : null} />}
+            
+                <View style={{ marginVertical: 10, display: 'flex', alignItems: 'center', flex: 1, width: '100%', justifyContent: 'center', flexDirection: 'row' }}>
+                  {!isLoading && 
+                  (
+                    <View style={{ marginRight: 10 }}>
+                      <FriendStatusButton 
+                        friendId={data?.id}
+                        meRecive={data?.friendStatus?.sender_id == userId ? data?.friendStatus : null}
+                        meSend={data?.friendStatus?.receiver_id == userId ? data?.friendStatus : null} />
+                    </View>
+                  )}
+
+                  <TouchableOpacity
+                    style={{ backgroundColor: '#00b4d8', borderRadius: '100%', padding: 5 }}
+                    onPress={() => navigation.navigate('Chat', { friendId: userId })}
+                  >
+                    <Icon name="chatbubbles-outline" type="ionicon" size={30} color="#fff" />
+                  </TouchableOpacity>
                 </View>
               </>
             )}

@@ -9,6 +9,7 @@ const ImageBrowserScreen = () => {
   const route = useRoute();
   const getHeaderLoader = () => <ActivityIndicator size="small" color={'#0580FF'} />;
   const handleCallback = route.params?.handleCallback;
+  const max = route.params?.max || 4;
 
   const processImageAsync = async (uri) => {
     const file = await ImageManipulator.manipulateAsync(uri, [{ resize: { width: 1000 } }], {
@@ -67,7 +68,7 @@ const ImageBrowserScreen = () => {
   return (
     <View style={[styles.flex, styles.container]}>
       <ImageBrowser
-        max={4}
+        max={max}
         onChange={updateHandler}
         callback={imagesCallback}
         renderSelectedComponent={renderSelectedComponent}

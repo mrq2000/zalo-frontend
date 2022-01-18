@@ -3,26 +3,30 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Icon } from 'react-native-elements';
+import { useQueryClient } from 'react-query';
 
-import Home from './screens/Home';
 import AddPost from './screens/post/AddPost';
 import ImageBrowser from './screens/post/ImageBrowserScreen';
+import PostList from './screens/post/PostList';
+import PostDetail from './screens/post/PostDetail';
 
 import SignIn from './screens/auth/SignIn';
 import SignUp from './screens/auth/SignUp';
 import AuthIntro from './screens/auth/AuthIntro';
-import PostList from './screens/post/PostList';
+
 import Message from './screens/message/Message';
 import Chat from './screens/message/Chat';
-import Account from './screens/account/Account';
+
 import Notification from './screens/notification';
+
+import Account from './screens/account/Account';
 import UserAccount from './screens/account/UserAccount';
+
+import Search from './screens/search/Search';
 
 import useTabBarBadge from './stores/useTabBarBadge';
 import useSocket from './stores/useSocket';
-import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
-import Search from './screens/search/Search';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -81,6 +85,18 @@ const HomeNavigator = () => {
           });
         }
       });
+
+      socket.on('acceptFriendRequest', async (senderId) => {
+        setTabBarBadge({ notification: notification + 1 });
+        queryClient.invalidateQueries('notifications');
+        queryClient.invalidateQueries('posts');
+      });
+
+      socket.on('newFriendRequest', async (senderId) => {
+        setTabBarBadge({ notification: notification + 1 });
+        queryClient.invalidateQueries('notifications');
+        queryClient.invalidateQueries('posts');
+      });
     }
   }, [socket]);
 
@@ -89,7 +105,7 @@ const HomeNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Notification"
+      initialRouteName="PostList"
       activeColor="#1C86EE"
       inactiveColor="#607B8B"
       barStyle={{ backgroundColor: '#fff' }}
@@ -125,7 +141,9 @@ const AppNavigator = () => {
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="UserAccount" component={UserAccount} />
 
+        <Stack.Screen name="PostDetail" component={PostDetail} />
         <Stack.Screen name="AddPost" component={AddPost} />
+
         <Stack.Screen
           name="ImageBrowser"
           component={ImageBrowser}

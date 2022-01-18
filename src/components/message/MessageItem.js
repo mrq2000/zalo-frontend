@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity, Touchable } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { getRelativeTimeFromNow } from '../../helpers/date';
 import useMe from '../../data/useMe';
 import { useNavigation } from '@react-navigation/core';
